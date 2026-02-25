@@ -2,9 +2,9 @@
 # 用于构建和推送 Docker 镜像
 
 # 配置变量
-DOCKER_USERNAME ?= your-dockerhub-username
+DOCKER_USERNAME ?= zsw01442
 IMAGE_NAME ?= renqing-wanglai
-VERSION ?= 1.0.0
+VERSION ?= 1.6.8
 IMAGE_TAG ?= $(DOCKER_USERNAME)/$(IMAGE_NAME)
 
 # 默认目标

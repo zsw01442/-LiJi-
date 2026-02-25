@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新农历算法全面验证</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .correct {
+            background: #f6ffed;
+            border-color: #52c41a;
+        }
+        .incorrect {
+            background: #fff0f0;
+            border-color: #ff4757;
+        }
+        .info-box {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 新农历算法全面验证</h1>
+        
+        <div class="info-box">
+            <h3>验证说明</h3>
+            <p><strong>算法类型：</strong>基于标准天文历法的通用算法</p>
+            <p><strong>核心特点：</strong>使用1900-2100年标准农历数据，无针对性修正</p>
+            <p><strong>验证范围：</strong>2025年关键日期 + 随机日期测试</p>
+        </div>
+
+        <div class="test-section">
+            <h2>2025年关键日期验证</h2>
+            <table id="key-results">
+                <thead>
+                    <tr>
+                        <th>公历日期</th>
+                        <th>权威结果</th>
+                        <th>算法结果</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody id="key-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="test-section">
+            <h2>跨年随机测试</h2>
+            <table id="random-results">
+                <thead>
+                    <tr>
+                        <th>公历日期</th>
+                        <th>算法结果</th>
+                        <th>合理性检查</th>
+                    </tr>
+                </thead>
+                <tbody id="random-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="test-section">
+            <h2>自定义测试</h2>
+            <div style="margin: 15px 0;">
+                <input type="date" id="custom-date" value="2025-12-23">
+                <button onclick="testCustomDate()">测试转换</button>
+                <div id="custom-result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 新的农历算法实现（与主程序完全一致）
+        function getLunarDate(dateStr) {
+            const solarDate = new Date(dateStr + 'T00:00:00');
+            
+            // 天干地支系统
+            const Gan = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+            const Zhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+            const Animals = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+            const lunarMonthName = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'];
+            const lunarDayName = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+                '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+                '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+            
+            // 标准的农历数据（基于天文历法计算）
+            const lunarInfo = [
+                // 1900-2100年的农历数据
+                0x4bd8,0x4ae0,0xa570,0x54d5,0xd260,0xd950,0x16554,0x56a0,0x9ad0,0x55d2,
+                0x4ae0,0xa5b6,0xa4d0,0xd250,0x1d255,0xb540,0xd6a0,0xada2,0x95b0,0x14977,
+                0x4970,0xa4b0,0xb4b5,0x6a50,0x6d40,0x1ab54,0x2b60,0x9570,0x52f2,0x4970,
+                0x6566,0xd4a0,0xea50,0x6e95,0x5ad0,0x2b60,0x186e3,0x92e0,0x1c8d7,0xc950,
+                0xd4a0,0x1d8a6,0xb550,0x56a0,0x1a5b4,0x25d0,0x92d0,0xd2b2,0xa950,0x1b557,
+                0x6ca0,0xb550,0x15355,0x4da0,0xa5d0,0x14573,0x52d0,0xa9a8,0xe950,0x6aa0,
+                0x1aea6,0xab50,0x4b60,0xaae4,0xa570,0x5260,0x1f263,0xd950,0x5b57,0x56a0,
+                0x96d0,0x14dd5,0x4ad0,0xa4d0,0x1d4d4,0xd250,0xd558,0xb540,0xb6a0,0x195a6,
+                0x95b0,0x49b0,0xa974,0xa4b0,0x1b27a,0x6a50,0x6d40,0x1af46,0xab60,0x9570,
+                0x4af5,0x4970,0x64b0,0x174a3,0xea50,0x6b58,0x55c0,0xab60,0x96d5,0x92e0,
+                0xc960,0x1d954,0xd4a0,0xda50,0x17552,0x56a0,0xabb7,0x25d0,0x92d0,0x1cab5,
+                0xa950,0xb4a0,0xbaa4,0xad50,0x55d9,0x4ba0,0xa5b0,0x15176,0x52b0,0xa930,
+                0x7954,0x6aa0,0x1ad50,0x5b52,0x4b60,0xa6e6,0xa4e0,0xd260,0xea65,0xd530,
+                0x5aa0,0x176a3,0x96d0,0x4afb,0x4ad0,0xa4d0,0x1d0b6,0xd250,0xd520,0xdd45,
+                0xb5a0,0x56d0,0x55b2,0x49b0,0xa577,0xa4b0,0xaa50,0x1b255,0x6d20,0xada0,
+                0x14b63,0x9370,0x49f8,0x4970,0x64b0,0x168a6,0xea50,0x6b20,0x1a6c4,0xaae0,
+                0xa2e0,0xd2e3,0xc960,0xd557,0xd4a0,0xda50,0x15d55,0x56a0,0xa6d0,0x55d4,
+                0x52d0,0xa9b8,0xa950,0xb4a0,0x1b6a6,0xad50,0x55a0,0xaba4,0xa5b0,0x52b0,
+                0xb273,0x6930,0x7337,0x6aa0,0xad50,0x14b55,0x4b60,0xa570,0x54e4,0xd160,
+                0xe968,0xd520,0xdaa0,0x16aa6,0x56d0,0x4ae0,0xa9d4,0xa2d0,0xd150,0x1f252,
+                0xd520
+            ];
+            
+            // 获取某年的闰月，0表示无闰月
+            function getLeapMonth(y) {
+                return lunarInfo[y - 1900] & 0xf;
+            }
+            
+            // 获取某年闰月的天数
+            function getLeapDays(y) {
+                if (getLeapMonth(y)) {
+                    return (lunarInfo[y - 1900] & 0x10000) ? 30 : 29;
+                }
+                return 0;
+            }
+            
+            // 获取某年某月的天数
+            function getMonthDays(y, m) {
+                return (lunarInfo[y - 1900] & (0x10000 >> m)) ? 30 : 29;
+            }
+            
+            // 获取农历某年的总天数
+            function getYearDays(y) {
+                let sum = 348;
+                for (let i = 0x8000; i > 0x8; i >>= 1) {
+                    sum += (lunarInfo[y - 1900] & i) ? 1 : 0;
+                }
+                return sum + getLeapDays(y);
+            }
+            
+            // 标准计算：使用1900年1月31日作为基准（农历庚子年十二月初一）
+            const baseDate = new Date(1900, 0, 31); // 1900年1月31日
+            let offset = Math.floor((solarDate - baseDate) / 86400000);
+            
+            let lunarYear, lunarMonth, lunarDay;
+            let isLeap = false;
+            
+            // 计算年份
+            let daysInYear = 0;
+            for (lunarYear = 1900; lunarYear < 2101; lunarYear++) {
+                daysInYear = getYearDays(lunarYear);
+                if (offset < daysInYear) {
+                    break;
+                }
+                offset -= daysInYear;
+            }
+            
+            // 获取当年闰月
+            let leapMonth = getLeapMonth(lunarYear);
+            
+            // 计算月份
+            let daysInMonth = 0;
+            let monthIndex = 1;
+            while (monthIndex <= 12) {
+                // 检查是否需要处理闰月
+                if (leapMonth > 0 && monthIndex === leapMonth && !isLeap) {
+                    // 先尝试闰月
+                    daysInMonth = getLeapDays(lunarYear);
+                    if (offset < daysInMonth) {
+                        lunarMonth = leapMonth;
+                        isLeap = true;
+                        break;
+                    }
+                    offset -= daysInMonth;
+                }
+                
+                daysInMonth = getMonthDays(lunarYear, monthIndex);
+                if (offset < daysInMonth) {
+                    lunarMonth = monthIndex;
+                    break;
+                }
+                offset -= daysInMonth;
+                monthIndex++;
+            }
+            
+            // 计算日期
+            lunarDay = offset + 1;
+            
+            // 格式化输出
+            const ganIndex = (lunarYear - 4) % 10;
+            const zhiIndex = (lunarYear - 4) % 12;
+            const ganZhi = Gan[ganIndex] + Zhi[zhiIndex];
+            const animal = Animals[zhiIndex];
+            const monthStr = isLeap ? '闰' + lunarMonthName[lunarMonth - 1] : lunarMonthName[lunarMonth - 1];
+            const dayStr = lunarDayName[lunarDay - 1] || '初一';
+            
+            return `农历${ganZhi}（${animal}）年${monthStr}${dayStr}`;
+        }
+
+        // 关键测试用例（用户提供的权威数据）
+        const keyTestCases = [
+            { date: "2025-12-23", expected: "农历乙巳（蛇）年十一月初四" },
+            { date: "2025-12-24", expected: "农历乙巳（蛇）年十一月初五" },
+            { date: "2025-12-04", expected: "农历乙巳（蛇）年十月十五" },
+            { date: "2025-11-04", expected: "农历乙巳（蛇）年九月十五" },
+            { date: "2025-10-01", expected: "农历乙巳（蛇）年八月廿九" },
+            { date: "2025-06-14", expected: "农历乙巳（蛇）年五月十九" }
+        ];
+
+        // 随机测试用例（跨年验证）
+        const randomTestCases = [
+            "2024-01-01", "2024-02-10", "2024-05-01", "2024-08-15", "2024-10-01",
+            "2025-01-01", "2025-03-08", "2025-07-07", "2025-09-10", "2025-11-11",
+            "2026-01-01", "2026-04-05", "2026-06-01", "2026-09-15", "2026-12-25"
+        ];
+
+        // 显示关键日期测试结果
+        function showKeyResults() {
+            const tbody = document.getElementById('key-body');
+            let html = '';
+
+            keyTestCases.forEach(testCase => {
+                const result = getLunarDate(testCase.date);
+                const isCorrect = result === testCase.expected;
+                const statusClass = isCorrect ? 'correct' : 'incorrect';
+                const statusText = isCorrect ? '✅ 正确' : '❌ 错误';
+
+                html += `
+                    <tr class="${statusClass}">
+                        <td><strong>${testCase.date}</strong></td>
+                        <td>${testCase.expected}</td>
+                        <td>${result}</td>
+                        <td>${statusText}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // 显示随机测试结果
+        function showRandomResults() {
+            const tbody = document.getElementById('random-body');
+            let html = '';
+
+            randomTestCases.forEach(date => {
+                const result = getLunarDate(date);
+                const isValid = isValidLunarFormat(result);
+                const statusText = isValid ? '✅ 格式正确' : '❌ 格式异常';
+
+                html += `
+                    <tr>
+                        <td><strong>${date}</strong></td>
+                        <td>${result}</td>
+                        <td>${statusText}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // 验证农历格式是否合理
+        function isValidLunarFormat(lunarStr) {
+            // 检查基本格式
+            const hasLunar = lunarStr.includes('农历');
+            const hasYear = lunarStr.includes('年');
+            const hasMonth = lunarStr.includes('月');
+            const hasDay = /初[一二三四五六七八九十]|十[一二三四五六七八九]|二十[一二三四五六七八九]|三十|[一二三四五六七八九]/.test(lunarStr);
+            
+            return hasLunar && hasYear && hasMonth && hasDay;
+        }
+
+        // 自定义测试
+        function testCustomDate() {
+            const dateInput = document.getElementById('custom-date').value;
+            if (!dateInput) {
+                alert('请输入日期');
+                return;
+            }
+            
+            const result = getLunarDate(dateInput);
+            const resultDiv = document.getElementById('custom-result');
+            
+            resultDiv.innerHTML = `
+                <div style="padding: 15px; background: #e6f7ff; border-radius: 5px;">
+                    <div><strong>📅 公历日期：</strong> ${dateInput}</div>
+                    <div><strong>📅 农历日期：</strong> ${result}</div>
+                    <div><strong>✅ 格式验证：</strong> ${isValidLunarFormat(result) ? '通过' : '不通过'}</div>
+                </div>
+            `;
+        }
+
+        // 页面加载时运行测试
+        window.onload = function() {
+            showKeyResults();
+            showRandomResults();
+        };
+    </script>
+</body>
+</html>

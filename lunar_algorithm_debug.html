@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农历算法深度分析</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .correct {
+            background: #f6ffed;
+            border-color: #52c41a;
+        }
+        .incorrect {
+            background: #fff0f0;
+            border-color: #ff4757;
+        }
+        .day-offset-1 {
+            background: #fffbe6;
+            border-color: #faad14;
+        }
+        .day-offset-2 {
+            background: #fff1f0;
+            border-color: #ff4d4f;
+        }
+        .info-box {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .debug-info {
+            background: #f9f0ff;
+            border: 1px solid #d3adf7;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 农历算法深度分析 - 偏差排查</h1>
+        
+        <div class="info-box">
+            <h3>分析目标</h3>
+            <p><strong>问题：</strong>当前算法存在1-2天的日期偏差</p>
+            <p><strong>方法：</strong>通过详细分析每个计算步骤，找出偏差源头</p>
+            <p><strong>重点：</strong>检查日期计算逻辑和月份切换逻辑</p>
+        </div>
+
+        <div class="test-section">
+            <h2>详细偏差分析</h2>
+            <div id="analysis-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>算法调试信息</h2>
+            <div id="debug-info" class="debug-info"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>逐步计算验证</h2>
+            <div>
+                <label>输入日期：</label>
+                <input type="date" id="test-date" value="2025-12-23">
+                <button onclick="stepByStepCalculation()">逐步计算</button>
+            </div>
+            <div id="step-by-step-result" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 基于权威数据的农历算法
+        function getLunarDate(dateStr) {
+            const solarDate = new Date(dateStr + 'T00:00:00');
+            
+            // 天干地支系统
+            const Gan = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+            const Zhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+            const Animals = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+            const lunarMonthName = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'];
+            const lunarDayName = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+                '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+                '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+            
+            // 2025年准确的农历数据（基于权威天文历法）
+            const lunarData2025 = {
+                // 月份起始日期 (公历日期对应农历初一)
+                '2025-01-29': '腊月',  // 腊月初一
+                '2025-02-28': '正月',  // 正月初一
+                '2025-03-30': '二月',  // 二月初一
+                '2025-04-28': '三月',  // 三月初一
+                '2025-05-27': '四月',  // 四月初一
+                '2025-06-25': '五月',  // 五月初一
+                '2025-07-25': '六月',  // 六月初一
+                '2025-08-24': '七月',  // 七月初一
+                '2025-09-22': '八月',  // 八月初一
+                '2025-10-22': '九月',  // 九月初一
+                '2025-11-21': '十月',  // 十月初一
+                '2025-12-20': '十一月' // 十一月初一
+            };
+            
+            // 2025年各月天数
+            const monthDays2025 = {
+                '正月': 30, '二月': 29, '三月': 30, '四月': 29, '五月': 30,
+                '六月': 29, '七月': 30, '八月': 29, '九月': 30, '十月': 29,
+                '十一月': 30, '腊月': 30
+            };
+            
+            // 调试信息收集
+            const debugInfo = {
+                inputDate: dateStr,
+                targetDate: new Date(dateStr),
+                baseDate: null,
+                dayDiff: 0,
+                lunarMonth: '',
+                lunarDay: 0,
+                monthMaxDays: 0
+            };
+            
+            // 转换为Date对象便于比较
+            const targetDate = new Date(dateStr);
+            
+            // 查找最近的农历初一
+            const baseDates = Object.keys(lunarData2025).map(key => {
+                return {
+                    date: new Date(key),
+                    month: lunarData2025[key]
+                };
+            });
+            
+            // 找到小于等于目标日期的最近初一
+            let closestBase = null;
+            for (let i = 0; i < baseDates.length; i++) {
+                if (baseDates[i].date <= targetDate) {
+                    if (!closestBase || baseDates[i].date > closestBase.date) {
+                        closestBase = baseDates[i];
+                    }
+                }
+            }
+            
+            debugInfo.baseDate = closestBase ? closestBase.date.toISOString().split('T')[0] : 'null';
+            
+            if (!closestBase) {
+                // 如果找不到，说明是2025年之前
+                return { result: getHistoricalLunarDate(dateStr), debugInfo };
+            }
+            
+            // 计算天数差
+            const dayDiff = Math.floor((targetDate - closestBase.date) / (1000 * 60 * 60 * 24));
+            debugInfo.dayDiff = dayDiff;
+            
+            // 计算农历日期
+            let lunarMonth = closestBase.month;
+            let lunarDay = dayDiff + 1;
+            debugInfo.lunarMonth = lunarMonth;
+            debugInfo.lunarDay = lunarDay;
+            
+            // 处理跨月情况
+            const monthMaxDays = monthDays2025[lunarMonth];
+            debugInfo.monthMaxDays = monthMaxDays;
+            
+            if (lunarDay > monthMaxDays) {
+                // 需要进入下一个月
+                const monthNames = Object.keys(monthDays2025);
+                const monthIndex = monthNames.indexOf(lunarMonth);
+                if (monthIndex < monthNames.length - 1) {
+                    lunarMonth = monthNames[monthIndex + 1];
+                    lunarDay = lunarDay - monthMaxDays;
+                    debugInfo.lunarMonth = lunarMonth + ' (跨月)';
+                    debugInfo.lunarDay = lunarDay;
+                }
+            }
+            
+            // 天干地支（2025年是乙巳年）
+            const ganZhi = '乙巳';
+            const animal = '蛇';
+            const dayStr = lunarDayName[lunarDay - 1] || '初一';
+            
+            const result = `农历${ganZhi}（${animal}）年${lunarMonth}${dayStr}`;
+            debugInfo.finalResult = result;
+            
+            return { result, debugInfo };
+        }
+        
+        // 历史日期处理（保持兼容性）
+        function getHistoricalLunarDate(dateStr) {
+            // 简化的历史算法
+            const solarDate = new Date(dateStr + 'T00:00:00');
+            const Gan = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+            const Zhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+            const Animals = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+            const lunarMonthName = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'];
+            const lunarDayName = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+                '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+                '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+            
+            // 简化的年份估算
+            const year = solarDate.getFullYear();
+            const ganIndex = (year - 4) % 10;
+            const zhiIndex = (year - 4) % 12;
+            const ganZhi = Gan[ganIndex] + Zhi[zhiIndex];
+            const animal = Animals[zhiIndex];
+            
+            // 粗略的月份和日期估算
+            const month = solarDate.getMonth() + 1;
+            const day = solarDate.getDate();
+            const lunarMonth = lunarMonthName[(month + 8) % 12];
+            const lunarDay = lunarDayName[(day - 1) % 30];
+            
+            return `农历${ganZhi}（${animal}）年${lunarMonth}${lunarDay}`;
+        }
+
+        // 测试用例
+        const testCases = [
+            { date: "2025-12-23", expected: "农历乙巳（蛇）年十一月初四" },
+            { date: "2025-12-24", expected: "农历乙巳（蛇）年十一月初五" },
+            { date: "2025-12-04", expected: "农历乙巳（蛇）年十月十五" },
+            { date: "2025-11-04", expected: "农历乙巳（蛇）年九月十五" },
+            { date: "2025-10-01", expected: "农历乙巳（蛇）年八月廿九" }
+        ];
+
+        // 分析结果
+        function analyzeResults() {
+            const resultsDiv = document.getElementById('analysis-results');
+            let html = '<table><thead><tr><th>日期</th><th>期望结果</th><th>计算结果</th><th>偏差</th><th>分析</th></tr></thead><tbody>';
+            
+            testCases.forEach(testCase => {
+                const { result, debugInfo } = getLunarDate(testCase.date);
+                const isCorrect = result === testCase.expected;
+                const偏差 = calculate偏差(testCase.expected, result);
+                
+                let statusClass = '';
+                let analysis = '';
+                
+                if (isCorrect) {
+                    statusClass = 'correct';
+                    analysis = '✅ 计算正确';
+                } else if (偏差 === 1) {
+                    statusClass = 'day-offset-1';
+                    analysis = '⚠️ 偏差1天';
+                } else if (偏差 === 2) {
+                    statusClass = 'day-offset-2';
+                    analysis = '❌ 偏差2天';
+                } else {
+                    statusClass = 'incorrect';
+                    analysis = '❌ 偏差较大';
+                }
+                
+                html += `
+                    <tr class="${statusClass}">
+                        <td><strong>${testCase.date}</strong></td>
+                        <td>${testCase.expected}</td>
+                        <td>${result}</td>
+                        <td>${偏差}天</td>
+                        <td>${analysis}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            resultsDiv.innerHTML = html;
+        }
+        
+        // 计算日期偏差
+        function calculate偏差(expected, actual) {
+            // 提取日期部分进行比较
+            const expectedDay = extractDay(expected);
+            const actualDay = extractDay(actual);
+            
+            if (expectedDay && actualDay) {
+                return Math.abs(expectedDay - actualDay);
+            }
+            return 0;
+        }
+        
+        // 提取农历日期中的数字
+        function extractDay(lunarStr) {
+            const match = lunarStr.match(/(初[一二三四五六七八九十]|十[一二三四五六七八九]|二十[一二三四五六七八九]|三十|[一二三四五六七八九])/);
+            if (match) {
+                const dayStr = match[1];
+                const dayMap = {
+                    '初一': 1, '初二': 2, '初三': 3, '初四': 4, '初五': 5, '初六': 6, '初七': 7, '初八': 8, '初九': 9, '初十': 10,
+                    '十一': 11, '十二': 12, '十三': 13, '十四': 14, '十五': 15, '十六': 16, '十七': 17, '十八': 18, '十九': 19, '二十': 20,
+                    '廿一': 21, '廿二': 22, '廿三': 23, '廿四': 24, '廿五': 25, '廿六': 26, '廿七': 27, '廿八': 28, '廿九': 29, '三十': 30
+                };
+                return dayMap[dayStr] || 0;
+            }
+            return 0;
+        }
+
+        // 显示调试信息
+        function showDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            const sampleDate = "2025-12-23";
+            const { result, debugInfo } = getLunarDate(sampleDate);
+            
+            let debugHtml = `
+                <strong>调试信息 - ${sampleDate}:</strong><br><br>
+                输入日期: ${debugInfo.inputDate}<br>
+                目标日期: ${debugInfo.targetDate}<br>
+                基准日期: ${debugInfo.baseDate}<br>
+                天数差值: ${debugInfo.dayDiff}天<br>
+                初始农历月: ${debugInfo.lunarMonth}<br>
+                初始农历日: ${debugInfo.lunarDay}<br>
+                月份最大天数: ${debugInfo.monthMaxDays}<br>
+                最终结果: ${debugInfo.finalResult}<br>
+            `;
+            
+            debugDiv.innerHTML = debugHtml;
+        }
+
+        // 逐步计算
+        function stepByStepCalculation() {
+            const dateInput = document.getElementById('test-date').value;
+            if (!dateInput) {
+                alert('请输入日期');
+                return;
+            }
+            
+            const { result, debugInfo } = getLunarDate(dateInput);
+            const resultDiv = document.getElementById('step-by-step-result');
+            
+            resultDiv.innerHTML = `
+                <div style="padding: 15px; background: #f0f8ff; border-radius: 5px;">
+                    <div><strong>📅 输入日期：</strong> ${dateInput}</div>
+                    <div><strong>📅 计算结果：</strong> ${result}</div>
+                    <div><strong>📊 详细过程：</strong></div>
+                    <div style="margin-left: 20px; margin-top: 10px;">
+                        <div>→ 找到最近的农历初一: ${debugInfo.baseDate}</div>
+                        <div>→ 计算天数差值: ${debugInfo.dayDiff}天</div>
+                        <div>→ 初始计算日期: ${debugInfo.lunarMonth}${debugInfo.lunarDay}日</div>
+                        <div>→ 月份天数限制: ${debugInfo.monthMaxDays}天</div>
+                        <div>→ 最终农历日期: ${result}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 页面加载时运行分析
+        window.onload = function() {
+            analyzeResults();
+            showDebugInfo();
+        };
+    </script>
+</body>
+</html>

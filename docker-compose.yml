@@ -1,7 +1,16 @@
 services:
+  liji-init:
+    image: busybox:latest
+    volumes:
+      - ./data:/app/data
+    command: sh -c "mkdir -p /app/data && chown -R 1001:1001 /app/data"
+    user: "0:0"  # 以root运行init容器
+    
   liji-app:
     image: zsw01442/liji:latest
     container_name: liji
+    depends_on:
+      - liji-init
     ports:
       - "3000:3000"
     volumes:
@@ -10,6 +19,7 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - DATA_DIR=/app/data
+    user: "1001:1001"  # 使用nodejs用户运行主应用
     restart: unless-stopped
 
 # 项目名称

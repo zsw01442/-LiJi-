@@ -1,6 +1,6 @@
 {
   "name": "liji",
-  "version": "1.0.0",
+  "version": "1.7.1",
   "description": "礼记 - 管理随礼还礼的智能工具",
   "main": "server.js",
   "scripts": {

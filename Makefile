@@ -3,8 +3,9 @@
 
 # 配置变量
 DOCKER_USERNAME ?= zsw01442
-IMAGE_NAME ?= renqing-wanglai
-VERSION ?= 1.6.8
+IMAGE_NAME ?= liji
+VERSION ?= 1.8.1
+PLATFORMS ?= linux/amd64,linux/arm64
 IMAGE_TAG ?= $(DOCKER_USERNAME)/$(IMAGE_NAME)
 
 # 默认目标
@@ -13,9 +14,12 @@ help:
 	@echo "人情往来系统 - Docker 镜像管理"
 	@echo ""
 	@echo "可用命令:"
-	@echo "  make build       - 构建 Docker 镜像"
+	@echo "  make build       - 构建 Docker 镜像（当前平台）"
+	@echo "  make build-multi - 构建多架构镜像"
+	@echo "  make build-push  - 构建并推送多架构镜像"
 	@echo "  make run         - 运行容器"
-	@echo "  make push        - 推送镜像到 Docker Hub"
+	@echo "  make push        - 推送镜像到 Docker Hub（单架构）"
+	@echo "  make push-multi  - 推送多架构镜像"
 	@echo "  make push-latest - 推送 latest 标签"
 	@echo "  make push-version - 推送版本标签"
 	@echo "  make clean       - 清理容器和镜像"
@@ -23,13 +27,24 @@ help:
 	@echo ""
 	@echo "环境变量:"
 	@echo "  DOCKER_USERNAME  - Docker Hub 用户名 (默认: your-dockerhub-username)"
-	@echo "  VERSION          - 版本号 (默认: 1.0.0)"
+	@echo "  VERSION          - 版本号 (默认: 1.8.0)"
+	@echo "  PLATFORMS        - 目标平台 (默认: linux/amd64,linux/arm64)"
 
-# 构建镜像
+# 构建镜像（单架构，用于快速测试）
 .PHONY: build
 build:
 	docker build -t $(IMAGE_TAG):latest .
 	docker build -t $(IMAGE_TAG):v$(VERSION) .
+
+# 多架构构建
+.PHONY: build-multi
+build-multi:
+	docker buildx build --platform $(PLATFORMS) -t $(IMAGE_TAG):latest -t $(IMAGE_TAG):v$(VERSION) . --load
+
+# 多架构构建并推送
+.PHONY: build-push
+build-push:
+	docker buildx build --platform $(PLATFORMS) -t $(IMAGE_TAG):latest -t $(IMAGE_TAG):v$(VERSION) . --push
 
 # 运行容器
 .PHONY: run
@@ -56,9 +71,13 @@ push-latest:
 push-version:
 	docker push $(IMAGE_TAG):v$(VERSION)
 
-# 推送所有标签
+# 推送所有标签（单架构）
 .PHONY: push
 push: push-latest push-version
+
+# 推送多架构镜像
+.PHONY: push-multi
+push-multi: build-push
 
 # 清理容器和镜像
 .PHONY: clean

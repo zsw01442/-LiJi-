@@ -327,6 +327,30 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+// 获取应用版本信息
+app.get('/api/version', (req, res) => {
+    // 从package.json读取版本信息
+    const packagePath = path.join(__dirname, 'package.json');
+    fs.readFile(packagePath, 'utf8')
+        .then(data => {
+            const packageInfo = JSON.parse(data);
+            res.json({
+                version: packageInfo.version,
+                name: packageInfo.name,
+                description: packageInfo.description
+            });
+        })
+        .catch(error => {
+            console.error('读取版本信息失败:', error);
+            // 如果读取失败，返回默认版本
+            res.json({
+                version: '1.8.1',
+                name: 'liji',
+                description: '礼记 - 管理随礼还礼的智能工具'
+            });
+        });
+});
+
 // 启动服务器
 async function start() {
     await ensureDataDir();

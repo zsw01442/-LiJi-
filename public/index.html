@@ -1279,12 +1279,24 @@
         };
 
         // 动态设置应用版本号
-        function setAppVersion() {
+        async function setAppVersion() {
             const titleElement = document.getElementById('app-title');
             if (titleElement) {
-                // 从Docker环境变量或默认值获取版本号
-                const version = 'V1.7.1'; // 可以从后端API获取或环境变量
-                titleElement.textContent = `💝 礼记 ${version}`;
+                try {
+                    // 从后端API获取版本信息
+                    const response = await fetch('/api/version');
+                    if (response.ok) {
+                        const versionInfo = await response.json();
+                        titleElement.textContent = `💝 礼记 V${versionInfo.version}`;
+                    } else {
+                        // 如果API调用失败，使用默认版本
+                        titleElement.textContent = `💝 礼记 V1.8.1`;
+                    }
+                } catch (error) {
+                    console.error('获取版本信息失败:', error);
+                    // 如果网络错误，使用默认版本
+                    titleElement.textContent = `💝 礼记 V1.8.1`;
+                }
             }
         }
         
@@ -1320,7 +1332,7 @@
         // 初始化
         document.addEventListener('DOMContentLoaded', async function() {
             // 动态设置版本号
-            setAppVersion();
+            await setAppVersion();
             
             // 检查登录状态
             checkLoginStatus();

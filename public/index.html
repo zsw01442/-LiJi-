@@ -21,7 +21,8 @@
         }
 
         /* 登录页面样式 */
-        #login-page {
+        #login-page,
+        #change-password-page {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,6 +37,7 @@
             padding: 50px;
             max-width: 450px;
             width: 100%;
+            margin: 0 auto;
         }
 
         .login-header {
@@ -744,7 +746,7 @@
                     <input type="password" id="confirm-password" placeholder="请再次输入新密码" required>
                 </div>
                 <button type="submit" class="login-btn">修改密码</button>
-                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="backToLogin()">返回登录</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 10px; margin-left: 0;" onclick="backToLogin()">返回登录</button>
                 <div id="change-password-message"></div>
             </form>
         </div>

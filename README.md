@@ -121,9 +121,7 @@ ports:
 ### 数据目录
 
 数据存储在挂载的卷中：
-- `records.json` - 人情往来记录
-- `giftbooks.json` - 礼薄数据
-- `password.json` - 密码文件
+- `liji.db` - SQLite3 数据库文件（包含所有记录、礼薄和密码）
 
 ### 环境变量
 
@@ -222,14 +220,76 @@ rm -rf ./data
 - Express.js
 - Body-parser
 
-### 存储
-- JSON 文件持久化
-- Docker 卷挂载
+### 数据库
+- **SQLite3** - 轻量级嵌入式数据库
+- **better-sqlite3** - Node.js 高性能 SQLite3 驱动
+- 数据持久化到 `/app/data/liji.db`
+- 支持事务操作，数据安全可靠
 
 ### 容器化
 - Docker
 - Docker Compose
 - Alpine Linux 基础镜像
+
+---
+
+## 🖥️ 多平台编译支持
+
+本项目使用 `better-sqlite3` 作为 SQLite3 的 Node.js 驱动，这是一个原生 C++ 模块，需要在目标平台上进行编译。
+
+### 支持的架构
+
+- **amd64** (x86_64) - 主流服务器和桌面平台
+- **arm64** (aarch64) - Apple Silicon (M1/M2/M3)、ARM 服务器
+
+### 本地构建
+
+```bash
+# 克隆仓库
+git clone https://github.com/smc326/-LiJi-.git   原作者https://github.com/zsw01442/-LiJi-.git 
+cd -LiJi-
+
+# 安装依赖（会自动编译 better-sqlite3）
+npm install
+
+# 启动应用
+npm start
+```
+
+### Docker 多平台构建
+
+```bash
+# 创建 buildx 构建器
+docker buildx create --name multiarch --use
+docker buildx inspect --bootstrap
+
+# 多平台构建并推送
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t smc326/liji:latest \
+  --push .
+```
+
+### 常见问题
+
+#### better-sqlite3 编译失败
+
+如果在某些平台上遇到编译错误，请确保安装了以下依赖：
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install build-essential python3
+```
+
+**Alpine Linux (Docker):**
+```dockerfile
+RUN apk add --no-cache python3 make g++
+```
+
+**macOS:**
+```bash
+xcode-select --install
+```
 
 ---
 

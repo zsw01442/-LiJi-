@@ -6,9 +6,12 @@ LABEL version="1.0.0"
 
 WORKDIR /app
 
+# 安装编译依赖（支持 better-sqlite3 原生模块编译）
+RUN apk add --no-cache python3 make g++
+
 # 复制 package.json 并安装依赖
 COPY package.json .
-RUN npm install --production && \
+RUN npm install && \
     npm cache clean --force
 
 # 复制服务器代码和前端文件

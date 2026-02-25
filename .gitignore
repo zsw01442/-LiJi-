@@ -1,4 +1,7 @@
+.github/
+.qoder/
 node_modules/
+package-lock.json
 .env
 data/
 *.log

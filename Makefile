@@ -4,7 +4,7 @@
 # 配置变量
 DOCKER_USERNAME ?= zsw01442
 IMAGE_NAME ?= liji
-VERSION ?= 1.8.1
+VERSION ?= 1.9.1
 PLATFORMS ?= linux/amd64,linux/arm64
 IMAGE_TAG ?= $(DOCKER_USERNAME)/$(IMAGE_NAME)
 
@@ -27,7 +27,7 @@ help:
 	@echo ""
 	@echo "环境变量:"
 	@echo "  DOCKER_USERNAME  - Docker Hub 用户名 (默认: your-dockerhub-username)"
-	@echo "  VERSION          - 版本号 (默认: 1.8.0)"
+	@echo "  VERSION          - 版本号 (默认: 1.9.1)"
 	@echo "  PLATFORMS        - 目标平台 (默认: linux/amd64,linux/arm64)"
 
 # 构建镜像（单架构，用于快速测试）

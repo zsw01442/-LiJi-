@@ -1290,24 +1290,131 @@
                         titleElement.textContent = `💝 礼记 V${versionInfo.version}`;
                     } else {
                         // 如果API调用失败，使用默认版本
-                        titleElement.textContent = `💝 礼记 V1.8.1`;
+                        titleElement.textContent = `💝 礼记 V1.9.1`;
                     }
                 } catch (error) {
                     console.error('获取版本信息失败:', error);
                     // 如果网络错误，使用默认版本
-                    titleElement.textContent = `💝 礼记 V1.8.1`;
+                    titleElement.textContent = `💝 礼记 V1.9.1`;
                 }
             }
         }
         
-        // 格式化日期显示(仅公历)
+        // 格式化日期显示（公历 + 农历）
+        const LUNAR_MONTH_NAMES = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
+        const LUNAR_DAY_NAMES = [
+            '初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
+            '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
+            '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'
+        ];
+        const ZODIAC_BY_ZHI = {
+            '子': '鼠', '丑': '牛', '寅': '虎', '卯': '兔', '辰': '龙', '巳': '蛇',
+            '午': '马', '未': '羊', '申': '猴', '酉': '鸡', '戌': '狗', '亥': '猪'
+        };
+
+        function parseChineseNumber(value) {
+            if (!value) return null;
+            const text = String(value).trim();
+            if (/^\d+$/.test(text)) return parseInt(text, 10);
+
+            const digitMap = { '零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9 };
+            if (Object.prototype.hasOwnProperty.call(digitMap, text)) {
+                return digitMap[text];
+            }
+            if (text === '十') return 10;
+
+            if (text.startsWith('廿')) {
+                const tail = text.slice(1);
+                return 20 + (tail ? (digitMap[tail] || 0) : 0);
+            }
+            if (text.startsWith('卅')) {
+                const tail = text.slice(1);
+                return 30 + (tail ? (digitMap[tail] || 0) : 0);
+            }
+            if (text.includes('十')) {
+                const segs = text.split('十');
+                const tens = segs[0] ? (digitMap[segs[0]] || 0) : 1;
+                const ones = segs[1] ? (digitMap[segs[1]] || 0) : 0;
+                return tens * 10 + ones;
+            }
+
+            return null;
+        }
+
+        function normalizeLunarMonth(monthValue) {
+            let monthText = String(monthValue || '').replace(/\s+/g, '');
+            if (!monthText) return '';
+
+            const leap = monthText.startsWith('闰');
+            if (leap) monthText = monthText.slice(1);
+
+            monthText = monthText.replace(/月/g, '');
+            const monthNum = parseChineseNumber(monthText);
+            let normalized = '';
+
+            if (monthNum && monthNum >= 1 && monthNum <= 12) {
+                normalized = LUNAR_MONTH_NAMES[monthNum - 1];
+            } else if (monthText === '正') {
+                normalized = '正月';
+            } else if (monthText === '冬') {
+                normalized = '冬月';
+            } else if (monthText === '腊') {
+                normalized = '腊月';
+            } else if (monthText) {
+                normalized = monthText.endsWith('月') ? monthText : `${monthText}月`;
+            }
+
+            return leap ? `闰${normalized}` : normalized;
+        }
+
+        function normalizeLunarDay(dayValue) {
+            const dayText = String(dayValue || '').replace(/\s+/g, '').replace(/[日号]/g, '');
+            if (!dayText) return '';
+            if (LUNAR_DAY_NAMES.includes(dayText)) return dayText;
+
+            const dayNum = parseChineseNumber(dayText);
+            if (dayNum && dayNum >= 1 && dayNum <= 30) {
+                return LUNAR_DAY_NAMES[dayNum - 1];
+            }
+            return dayText;
+        }
+
         function formatDateWithLunar(dateStr) {
             const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('zh-CN', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit' 
+            if (Number.isNaN(date.getTime())) {
+                return dateStr || '';
+            }
+
+            const solarDate = date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
             });
+
+            try {
+                const lunarFormatter = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                const parts = lunarFormatter.formatToParts(date);
+                const relatedYear = (parts.find(part => part.type === 'relatedYear')?.value || '').replace(/[^\d]/g, '');
+                const yearName = (parts.find(part => part.type === 'yearName')?.value || '').replace(/[年\s]/g, '');
+                const lunarMonth = normalizeLunarMonth(parts.find(part => part.type === 'month')?.value || '');
+                const lunarDay = normalizeLunarDay(parts.find(part => part.type === 'day')?.value || '');
+                const zodiac = ZODIAC_BY_ZHI[yearName.slice(-1)] || '';
+
+                if (relatedYear && yearName && lunarMonth && lunarDay) {
+                    return `${solarDate}（农历${relatedYear}${yearName}${zodiac}年${lunarMonth}${lunarDay}）`;
+                }
+
+                const lunarDate = lunarFormatter.format(date).replace(/\s+/g, '');
+                return `${solarDate}（农历${lunarDate}）`;
+            } catch (error) {
+                // Browser/runtime does not support chinese calendar in Intl.
+                return solarDate;
+            }
         }
         
         // 批量转换历史记录中的日期

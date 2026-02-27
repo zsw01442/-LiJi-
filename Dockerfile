@@ -2,7 +2,7 @@ FROM --platform=$TARGETPLATFORM node:18-alpine
 
 LABEL maintainer="your-email@example.com"
 LABEL description="礼记 - 管理随礼还礼的智能工具"
-LABEL version="1.8.1"
+LABEL version="1.9.1"
 LABEL architecture="multi-arch"
 
 WORKDIR /app

@@ -344,7 +344,7 @@ app.get('/api/version', (req, res) => {
             console.error('读取版本信息失败:', error);
             // 如果读取失败，返回默认版本
             res.json({
-                version: '1.8.1',
+                version: '1.9.1',
                 name: 'liji',
                 description: '礼记 - 管理随礼还礼的智能工具'
             });

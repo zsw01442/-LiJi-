@@ -1,52 +1,52 @@
-# 人情往来系统 Makefile
-# 用于构建和推送 Docker 镜像
+﻿# 浜烘儏寰€鏉ョ郴缁?Makefile
+# 鐢ㄤ簬鏋勫缓鍜屾帹閫?Docker 闀滃儚
 
-# 配置变量
+# 閰嶇疆鍙橀噺
 DOCKER_USERNAME ?= zsw01442
 IMAGE_NAME ?= liji
-VERSION ?= 1.9.1
+VERSION ?= 2.0.0
 PLATFORMS ?= linux/amd64,linux/arm64
 IMAGE_TAG ?= $(DOCKER_USERNAME)/$(IMAGE_NAME)
 
-# 默认目标
+# 榛樿鐩爣
 .PHONY: help
 help:
-	@echo "人情往来系统 - Docker 镜像管理"
+	@echo "浜烘儏寰€鏉ョ郴缁?- Docker 闀滃儚绠＄悊"
 	@echo ""
-	@echo "可用命令:"
-	@echo "  make build       - 构建 Docker 镜像（当前平台）"
-	@echo "  make build-multi - 构建多架构镜像"
-	@echo "  make build-push  - 构建并推送多架构镜像"
-	@echo "  make run         - 运行容器"
-	@echo "  make push        - 推送镜像到 Docker Hub（单架构）"
-	@echo "  make push-multi  - 推送多架构镜像"
-	@echo "  make push-latest - 推送 latest 标签"
-	@echo "  make push-version - 推送版本标签"
-	@echo "  make clean       - 清理容器和镜像"
-	@echo "  make login       - 登录 Docker Hub"
+	@echo "鍙敤鍛戒护:"
+	@echo "  make build       - 鏋勫缓 Docker 闀滃儚锛堝綋鍓嶅钩鍙帮級"
+	@echo "  make build-multi - 鏋勫缓澶氭灦鏋勯暅鍍?
+	@echo "  make build-push  - 鏋勫缓骞舵帹閫佸鏋舵瀯闀滃儚"
+	@echo "  make run         - 杩愯瀹瑰櫒"
+	@echo "  make push        - 鎺ㄩ€侀暅鍍忓埌 Docker Hub锛堝崟鏋舵瀯锛?
+	@echo "  make push-multi  - 鎺ㄩ€佸鏋舵瀯闀滃儚"
+	@echo "  make push-latest - 鎺ㄩ€?latest 鏍囩"
+	@echo "  make push-version - 鎺ㄩ€佺増鏈爣绛?
+	@echo "  make clean       - 娓呯悊瀹瑰櫒鍜岄暅鍍?
+	@echo "  make login       - 鐧诲綍 Docker Hub"
 	@echo ""
-	@echo "环境变量:"
-	@echo "  DOCKER_USERNAME  - Docker Hub 用户名 (默认: your-dockerhub-username)"
-	@echo "  VERSION          - 版本号 (默认: 1.9.1)"
-	@echo "  PLATFORMS        - 目标平台 (默认: linux/amd64,linux/arm64)"
+	@echo "鐜鍙橀噺:"
+	@echo "  DOCKER_USERNAME  - Docker Hub 鐢ㄦ埛鍚?(榛樿: your-dockerhub-username)"
+	@echo "  VERSION          - 鐗堟湰鍙?(榛樿: 1.9.1)"
+	@echo "  PLATFORMS        - 鐩爣骞冲彴 (榛樿: linux/amd64,linux/arm64)"
 
-# 构建镜像（单架构，用于快速测试）
+# 鏋勫缓闀滃儚锛堝崟鏋舵瀯锛岀敤浜庡揩閫熸祴璇曪級
 .PHONY: build
 build:
 	docker build -t $(IMAGE_TAG):latest .
 	docker build -t $(IMAGE_TAG):v$(VERSION) .
 
-# 多架构构建
+# 澶氭灦鏋勬瀯寤?
 .PHONY: build-multi
 build-multi:
 	docker buildx build --platform $(PLATFORMS) -t $(IMAGE_TAG):latest -t $(IMAGE_TAG):v$(VERSION) . --load
 
-# 多架构构建并推送
+# 澶氭灦鏋勬瀯寤哄苟鎺ㄩ€?
 .PHONY: build-push
 build-push:
 	docker buildx build --platform $(PLATFORMS) -t $(IMAGE_TAG):latest -t $(IMAGE_TAG):v$(VERSION) . --push
 
-# 运行容器
+# 杩愯瀹瑰櫒
 .PHONY: run
 run:
 	docker run -d \
@@ -56,30 +56,30 @@ run:
 		--restart unless-stopped \
 		$(IMAGE_TAG):latest
 
-# 登录 Docker Hub
+# 鐧诲綍 Docker Hub
 .PHONY: login
 login:
 	docker login
 
-# 推送 latest 标签
+# 鎺ㄩ€?latest 鏍囩
 .PHONY: push-latest
 push-latest:
 	docker push $(IMAGE_TAG):latest
 
-# 推送版本标签
+# 鎺ㄩ€佺増鏈爣绛?
 .PHONY: push-version
 push-version:
 	docker push $(IMAGE_TAG):v$(VERSION)
 
-# 推送所有标签（单架构）
+# 鎺ㄩ€佹墍鏈夋爣绛撅紙鍗曟灦鏋勶級
 .PHONY: push
 push: push-latest push-version
 
-# 推送多架构镜像
+# 鎺ㄩ€佸鏋舵瀯闀滃儚
 .PHONY: push-multi
 push-multi: build-push
 
-# 清理容器和镜像
+# 娓呯悊瀹瑰櫒鍜岄暅鍍?
 .PHONY: clean
 clean:
 	docker stop $(IMAGE_NAME) 2>/dev/null || true
@@ -87,30 +87,31 @@ clean:
 	docker rmi $(IMAGE_TAG):latest 2>/dev/null || true
 	docker rmi $(IMAGE_TAG):v$(VERSION) 2>/dev/null || true
 
-# 查看日志
+# 鏌ョ湅鏃ュ織
 .PHONY: logs
 logs:
 	docker logs -f $(IMAGE_NAME)
 
-# 查看容器状态
+# 鏌ョ湅瀹瑰櫒鐘舵€?
 .PHONY: status
 status:
 	docker ps -a | grep $(IMAGE_NAME)
 
-# 测试镜像
+# 娴嬭瘯闀滃儚
 .PHONY: test
 test:
-	@echo "测试镜像构建..."
+	@echo "娴嬭瘯闀滃儚鏋勫缓..."
 	docker run --rm -p 3001:3000 $(IMAGE_TAG):latest &
 	sleep 5
-	curl -f http://localhost:3001/health && echo "\n✅ 镜像测试通过" || echo "\n❌ 镜像测试失败"
+	curl -f http://localhost:3001/health && echo "\n鉁?闀滃儚娴嬭瘯閫氳繃" || echo "\n鉂?闀滃儚娴嬭瘯澶辫触"
 	docker stop $(shell docker ps -q --filter "publish=3001") 2>/dev/null || true
 
-# 显示镜像信息
+# 鏄剧ず闀滃儚淇℃伅
 .PHONY: info
 info:
-	@echo "镜像信息:"
-	@docker images | grep $(IMAGE_NAME) || echo "未找到镜像"
+	@echo "闀滃儚淇℃伅:"
+	@docker images | grep $(IMAGE_NAME) || echo "鏈壘鍒伴暅鍍?
 
-# 默认目标
+# 榛樿鐩爣
 .DEFAULT_GOAL := help
+

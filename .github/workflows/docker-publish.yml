@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: your-dockerhub-username/renqing-wanglai
+  IMAGE_NAME: zsw01442/liji
 
 jobs:
   build:

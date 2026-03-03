@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -274,6 +274,191 @@
 
         .records-list {
             margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .records-list .empty-state {
+            grid-column: 1 / -1;
+            margin-top: 0;
+        }
+
+        .records-list .record-card {
+            padding: 12px;
+            margin-bottom: 0;
+            border-left-width: 3px;
+            min-height: 172px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .records-list .record-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .records-list .record-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .records-list .record-header {
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .records-list .record-name {
+            font-size: 16px;
+            line-height: 1.2;
+            display: inline-block;
+            max-width: 138px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .records-list .record-amount {
+            font-size: 18px;
+            white-space: nowrap;
+        }
+
+        .records-list .status-badge {
+            margin-left: 6px;
+            padding: 2px 8px;
+            font-size: 11px;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .records-list .record-details {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 4px;
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .records-list .record-detail {
+            min-width: 0;
+            display: grid;
+            align-items: center;
+            gap: 4px;
+            overflow: hidden;
+        }
+
+        .records-list .record-detail.single {
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .records-list .record-detail.pair {
+            grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
+        }
+
+        .records-list .record-detail strong {
+            margin-right: 0;
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+
+        .records-list .record-detail span {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .records-list .record-placeholder {
+            color: #bfbfbf;
+            font-style: italic;
+        }
+
+        .records-list .record-note {
+            margin-top: 4px;
+            color: #666;
+            font-size: 12px;
+            line-height: 1.4;
+            min-height: 18px;
+            max-height: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .records-list .record-note span {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: bottom;
+        }
+
+        .records-list .record-actions {
+            margin-top: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .records-list .record-actions .btn-small {
+            width: 100%;
+            padding: 6px 10px;
+        }
+
+        .giftbook-list .record-card {
+            min-height: 0;
+        }
+
+        .giftbook-list .record-card.expanded {
+            grid-column: 1 / -1;
+        }
+
+        .giftbook-summary {
+            cursor: pointer;
+        }
+
+        .giftbook-summary .record-header {
+            margin-bottom: 4px;
+        }
+
+        .giftbook-summary-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .giftbook-summary-details {
+            margin-top: 0;
+        }
+
+        .giftbook-toggle {
+            margin-left: 6px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid #ffd591;
+            background: #fff7e6;
+            color: #d46b08;
+            font-size: 11px;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .giftbook-content {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .giftbook-content .record-actions {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .giftbook-content.collapsed {
+            display: none;
         }
 
         .record-card {
@@ -429,16 +614,16 @@
         }
 
         .contact-group {
-            margin-bottom: 30px;
+            margin-bottom: 16px;
         }
 
         .contact-group-title {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 20px;
+            padding: 10px 14px;
             border-radius: 8px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -446,13 +631,13 @@
 
         .contact-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
         }
 
         .contact-item {
             background: #f9f9f9;
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
@@ -468,23 +653,24 @@
 
         .contact-name {
             font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 8px;
+            font-size: 15px;
+            margin-bottom: 4px;
             color: #333;
         }
 
         .contact-stats {
             font-size: 12px;
             color: #666;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 2px;
+            margin-top: 4px;
         }
 
         .contact-balance {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
         .contact-balance.positive {
@@ -685,8 +871,36 @@
             color: #52c41a;
         }
 
+        @media (max-width: 1280px) {
+            .records-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .contact-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .records-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .contact-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .form-row, .record-details, .statistics {
+                grid-template-columns: 1fr;
+            }
+
+            .records-list {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-list {
                 grid-template-columns: 1fr;
             }
 
@@ -761,7 +975,7 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('add')">📝 添加记录</button>
             <button class="tab" onclick="switchTab('list')">📋 记录列表</button>
-            <button class="tab" onclick="switchTab('gift-book')">🎁 礼薄管理</button>
+            <button class="tab" onclick="switchTab('gift-book')">🎁 礼簿管理</button>
             <button class="tab" onclick="switchTab('stats')">📊 统计分析</button>
         </div>
 
@@ -785,11 +999,11 @@
                     </div>
 
                     <div class="form-group" id="giftbook-selection" style="display: none;">
-                        <label for="giftbook">关联礼薄</label>
+                        <label for="giftbook">关联礼簿</label>
                         <select id="giftbook" onchange="onGiftBookChange()">
-                            <option value="">不关联礼薄</option>
+                            <option value="">不关联礼簿</option>
                         </select>
-                        <small style="color: #999; display: block; margin-top: 5px;">💡 选择礼薄后，此收礼记录将自动添加到对应礼薄中，并自动填充事由和日期</small>
+                        <small style="color: #999; display: block; margin-top: 5px;">💡 选择礼簿后，此收礼记录将自动添加到对应礼簿中，并自动填充事由和日期</small>
                     </div>
 
                     <div class="form-row">
@@ -880,14 +1094,14 @@
             <div id="gift-book-tab" class="tab-content">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <button class="btn btn-primary" onclick="toggleGiftBookForm()" id="create-giftbook-btn">
-                        ➕ 创建礼薄
+                        ➕ 创建礼簿
                     </button>
                 </div>
 
                 <div id="gift-book-form-container" style="display: none; margin-bottom: 30px;">
                     <div style="background: #f9f9f9; padding: 25px; border-radius: 12px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <h3>📝 创建新礼薄</h3>
+                            <h3>📝 创建新礼簿</h3>
                             <button class="btn btn-secondary" onclick="toggleGiftBookForm()" style="padding: 8px 15px;">
                                 ✖ 关闭
                             </button>
@@ -926,14 +1140,14 @@
                                 <textarea id="gb-notes" placeholder="可以添加一些备注信息..."></textarea>
                             </div>
                             <div style="text-align: center; margin-top: 20px;">
-                                <button type="submit" class="btn btn-primary">💾 创建礼薄</button>
+                                <button type="submit" class="btn btn-primary">💾 创建礼簿</button>
                                 <button type="reset" class="btn btn-secondary">🔄 重置</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <div id="gift-books-container"></div>
+                <div id="gift-books-container" class="records-list giftbook-list"></div>
             </div>
 
             <!-- 统计分析 -->
@@ -1003,59 +1217,106 @@
     <script>
         // 密码管理
         let currentPassword = null;
-        const DEFAULT_PASSWORD = 'admin';
         const SESSION_KEY = 'renqing-session';
-        const FIRST_TIME_KEY = 'renqing-first-time';
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function sanitizeText(value, maxLen = 200) {
+            return escapeHtml(String(value ?? '').trim()).slice(0, maxLen);
+        }
+
+        function sanitizeRecord(record) {
+            const allowedTypes = new Set(['received', 'given']);
+            const allowedEvents = new Set(['wedding', 'birthday', 'housewarming', 'baby', 'visit', 'funeral', 'other']);
+            return {
+                ...record,
+                name: sanitizeText(record.name, 80),
+                type: allowedTypes.has(record.type) ? record.type : 'given',
+                amount: Number.isFinite(Number(record.amount)) ? Number(record.amount) : 0,
+                date: String(record.date || ''),
+                event: allowedEvents.has(record.event) ? record.event : 'other',
+                relationship: sanitizeText(record.relationship || '', 40),
+                location: sanitizeText(record.location || '', 120),
+                notes: sanitizeText(record.notes || '', 500),
+            };
+        }
+
+        function sanitizeGiftBook(book) {
+            const allowedEvents = new Set(['wedding', 'birthday', 'housewarming', 'baby', 'visit', 'funeral', 'other']);
+            const guests = Array.isArray(book.guests) ? book.guests.map(guest => ({
+                ...guest,
+                name: sanitizeText(guest.name, 80),
+                relationship: sanitizeText(guest.relationship || '', 40),
+                amount: Number.isFinite(Number(guest.amount)) ? Number(guest.amount) : 0,
+            })) : [];
+            return {
+                ...book,
+                eventName: sanitizeText(book.eventName, 80),
+                eventType: allowedEvents.has(book.eventType) ? book.eventType : 'other',
+                date: String(book.date || ''),
+                location: sanitizeText(book.location || '', 120),
+                notes: sanitizeText(book.notes || '', 500),
+                guests,
+            };
+        }
+
+        function isUnauthorizedResponse(response) {
+            return response && response.status === 401;
+        }
 
         // 检查密码状态
         async function checkPasswordStatus() {
             try {
                 const response = await fetch(`${API_BASE}/api/password/status`);
-                if (response.ok) {
-                    return await response.json();
+                if (!response.ok) {
+                    return { hasPassword: true, isFirstTime: false };
                 }
-                return { hasPassword: false, isFirstTime: true };
+                return await response.json();
             } catch (error) {
                 console.error('无法获取密码状态:', error);
-                // 如果API不可用，降级到本地存储
-                return {
-                    hasPassword: !!localStorage.getItem('renqing-password'),
-                    isFirstTime: !localStorage.getItem('renqing-password-changed')
-                };
+                return { hasPassword: true, isFirstTime: false };
             }
         }
 
-        // 验证密码
+        async function checkServerSession() {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/status`);
+                if (!response.ok) {
+                    return false;
+                }
+                const result = await response.json();
+                return !!result.loggedIn;
+            } catch (error) {
+                console.error('无法获取会话状态:', error);
+                return false;
+            }
+        }
+
         async function verifyPassword(password) {
             try {
-                console.log('Verifying password with API:', `${API_BASE}/api/password/verify`);
                 const response = await fetch(`${API_BASE}/api/password/verify`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ password })
                 });
-                
-                console.log('Password verification response:', response.status, response.statusText);
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('Password verification result data:', result);
-                    return result.success;
-                } else {
-                    console.error('Password verification failed with status:', response.status);
-                    // 如果API返回错误状态，仍然尝试本地验证作为后备
-                    const storedPassword = localStorage.getItem('renqing-password') || DEFAULT_PASSWORD;
-                    return password === storedPassword;
+                if (!response.ok) {
+                    return false;
                 }
+                const result = await response.json();
+                return !!result.success;
             } catch (error) {
-                console.error('Password verification failed:', error);
-                // 如果API不可用，使用本地验证
-                const storedPassword = localStorage.getItem('renqing-password') || DEFAULT_PASSWORD;
-                return password === storedPassword;
+                console.error('密码验证失败:', error);
+                return false;
             }
         }
 
-        // 保存密码
         async function savePassword(newPassword, oldPassword = null) {
             try {
                 const response = await fetch(`${API_BASE}/api/password`, {
@@ -1063,55 +1324,44 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ oldPassword, newPassword })
                 });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success) {
-                        // 同时保存到本地存储作为缓存
-                        localStorage.setItem('renqing-password', newPassword);
-                        localStorage.setItem('renqing-password-changed', 'true');
-                        return true;
-                    }
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || !result.success) {
+                    return { success: false, message: result.message || '密码修改失败' };
                 }
-                return false;
+                return { success: true };
             } catch (error) {
                 console.error('密码保存失败:', error);
-                // 如果API不可用，只保存到本地
-                localStorage.setItem('renqing-password', newPassword);
-                localStorage.setItem('renqing-password-changed', 'true');
-                return true;
+                return { success: false, message: '请求失败，请重试' };
             }
         }
 
-        // 获取存储的密码（主要用于本地验证降级）
-        function getStoredPassword() {
-            return localStorage.getItem('renqing-password') || DEFAULT_PASSWORD;
-        }
-
-        // 检查登录状态
         async function checkLoginStatus() {
-            const session = sessionStorage.getItem(SESSION_KEY);
-            const passwordStatus = await checkPasswordStatus();
-            
-            if (session === 'logged-in') {
-                showApp();
+            const [loggedIn, passwordStatus] = await Promise.all([
+                checkServerSession(),
+                checkPasswordStatus()
+            ]);
+
+            if (loggedIn) {
+                sessionStorage.setItem(SESSION_KEY, 'logged-in');
+                await loadDataAndShowApp();
                 if (passwordStatus.isFirstTime) {
                     setTimeout(() => {
-                        if (confirm('检测到您是首次使用，默认密码为 "admin"，建议立即修改密码以保证安全。\n\n是否现在修改？')) {
+                        if (confirm('检测到当前仍是默认密码 admin，建议立刻修改。是否现在去修改？')) {
                             logout();
                             showChangePasswordForm();
                         }
                     }, 500);
                 }
-            } else {
-                showLogin();
-                if (passwordStatus.isFirstTime) {
-                    showMessage('login-message', '欢迎首次使用！默认密码为: admin', 'success');
-                }
+                return;
+            }
+
+            sessionStorage.removeItem(SESSION_KEY);
+            showLogin();
+            if (passwordStatus.isFirstTime) {
+                showMessage('login-message', '首次使用默认密码为 admin，请尽快修改', 'success');
             }
         }
 
-        // 显示登录页面
         function showLogin() {
             document.getElementById('login-page').style.display = 'flex';
             document.getElementById('change-password-page').style.display = 'none';
@@ -1119,7 +1369,6 @@
             document.body.style.padding = '0';
         }
 
-        // 显示应用
         function showApp() {
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('change-password-page').style.display = 'none';
@@ -1127,7 +1376,6 @@
             document.body.style.padding = '20px';
         }
 
-        // 显示修改密码表单
         function showChangePasswordForm() {
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('change-password-page').style.display = 'flex';
@@ -1135,54 +1383,47 @@
             document.body.style.padding = '0';
         }
 
-        // 返回登录
         function backToLogin() {
             showLogin();
             document.getElementById('change-password-form').reset();
             document.getElementById('change-password-message').innerHTML = '';
         }
 
-        // 显示消息
         function showMessage(elementId, message, type = 'error') {
             const messageDiv = document.getElementById(elementId);
             messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
             messageDiv.textContent = message;
         }
 
-        // 处理登录
         async function handleLogin(event) {
             event.preventDefault();
             const password = document.getElementById('password').value;
-            
-            console.log('Attempting to login with password:', password);
-            
+
             try {
                 const isValid = await verifyPassword(password);
-                console.log('Password verification result:', isValid);
-                
                 if (isValid) {
                     sessionStorage.setItem(SESSION_KEY, 'logged-in');
                     currentPassword = password;
                     document.getElementById('login-form').reset();
-                    console.log('Login successful, showing app');
-                    loadDataAndShowApp();
+                    await loadDataAndShowApp();
                 } else {
-                    console.log('Login failed: invalid password');
                     showMessage('login-message', '密码错误，请重试');
                     document.getElementById('password').value = '';
                 }
             } catch (error) {
-                console.error('Login error:', error);
+                console.error('登录失败:', error);
                 showMessage('login-message', '登录过程中发生错误，请重试');
             }
-            
+
             return false;
         }
 
-        // 加载数据并显示应用
         async function loadDataAndShowApp() {
             showApp();
             await loadData();
+            if (!(await checkServerSession())) {
+                return;
+            }
             renderRecords();
             renderStatistics();
             renderGiftBooks();
@@ -1190,20 +1431,14 @@
             toggleGiftBookSelection();
         }
 
-        // 处理修改密码
         async function handleChangePassword(event) {
             event.preventDefault();
             const oldPassword = document.getElementById('old-password').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
-            if (!(await verifyPassword(oldPassword))) {
-                showMessage('change-password-message', '旧密码错误');
-                return false;
-            }
-
-            if (newPassword.length < 4) {
-                showMessage('change-password-message', '新密码长度至少为4位');
+            if (newPassword.length < 6) {
+                showMessage('change-password-message', '新密码长度至少为6位');
                 return false;
             }
 
@@ -1212,62 +1447,60 @@
                 return false;
             }
 
-            if (await savePassword(newPassword, oldPassword)) {
-                showMessage('change-password-message', '密码修改成功！3秒后跳转到登录页面...', 'success');
-                
+            const result = await savePassword(newPassword, oldPassword);
+            if (result.success) {
+                showMessage('change-password-message', '密码修改成功，3秒后跳转到登录页', 'success');
                 setTimeout(() => {
                     backToLogin();
                 }, 3000);
             } else {
-                showMessage('change-password-message', '密码修改失败，请重试');
+                showMessage('change-password-message', result.message || '密码修改失败，请重试');
             }
 
             return false;
         }
 
-        // 退出登录
-        function logout() {
+        async function logout() {
             sessionStorage.removeItem(SESSION_KEY);
             currentPassword = null;
+            try {
+                await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
+            } catch (error) {
+                console.error('退出登录请求失败:', error);
+            }
             showLogin();
             document.getElementById('login-message').innerHTML = '';
         }
 
-        // 数据存储（使用API）
         let records = [];
         let giftBooks = [];
-        
-        // API 基础URL
+
         const API_BASE = window.location.origin;
-        
-        // 从服务器加载数据
+
         async function loadData() {
             try {
                 const [recordsRes, giftBooksRes] = await Promise.all([
                     fetch(`${API_BASE}/api/records`),
                     fetch(`${API_BASE}/api/giftbooks`)
                 ]);
-                
-                records = await recordsRes.json();
-                giftBooks = await giftBooksRes.json();
-                
-                console.log('数据加载成功:', { records: records.length, giftBooks: giftBooks.length });
-                
-                // 使用新算法重新计算所有历史记录的农历日期
+
+                if (isUnauthorizedResponse(recordsRes) || isUnauthorizedResponse(giftBooksRes)) {
+                    await logout();
+                    return;
+                }
+                if (!recordsRes.ok || !giftBooksRes.ok) {
+                    throw new Error(`load failed: records=${recordsRes.status}, giftbooks=${giftBooksRes.status}`);
+                }
+
+                records = (await recordsRes.json()).map(sanitizeRecord);
+                giftBooks = (await giftBooksRes.json()).map(sanitizeGiftBook);
                 convertHistoricalRecords();
-                
             } catch (error) {
                 console.error('数据加载失败:', error);
-                // 如果API不可用，尝试使用localStorage（向后兼容）
-                records = JSON.parse(localStorage.getItem('renqing-records')) || [];
-                giftBooks = JSON.parse(localStorage.getItem('renqing-giftbooks')) || [];
-                
-                // 使用新算法重新计算localStorage中的历史记录
-                convertHistoricalRecords();
+                await logout();
             }
         }
 
-        // 事由映射
         const eventMap = {
             wedding: '结婚',
             birthday: '生日',
@@ -1289,27 +1522,27 @@
                         const versionInfo = await response.json();
                         titleElement.textContent = `💝 礼记 V${versionInfo.version}`;
                     } else {
-                        // 如果API调用失败，使用默认版本
-                        titleElement.textContent = `💝 礼记 V1.9.1`;
+                        // 如果API调用失败，使用默认版�?
+                        titleElement.textContent = `💝 礼记 V2.0.0`;
                     }
                 } catch (error) {
                     console.error('获取版本信息失败:', error);
-                    // 如果网络错误，使用默认版本
-                    titleElement.textContent = `💝 礼记 V1.9.1`;
+                    // 如果网络错误，使用默认版�?
+                    titleElement.textContent = `💝 礼记 V2.0.0`;
                 }
             }
         }
         
         // 格式化日期显示（公历 + 农历）
-        const LUNAR_MONTH_NAMES = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
+        const LUNAR_MONTH_NAMES = ["正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"];
         const LUNAR_DAY_NAMES = [
-            '初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
-            '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
-            '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'
+            "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+            "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+            "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"
         ];
         const ZODIAC_BY_ZHI = {
-            '子': '鼠', '丑': '牛', '寅': '虎', '卯': '兔', '辰': '龙', '巳': '蛇',
-            '午': '马', '未': '羊', '申': '猴', '酉': '鸡', '戌': '狗', '亥': '猪'
+            "子": "鼠", "丑": "牛", "寅": "虎", "卯": "兔", "辰": "龙", "巳": "蛇",
+            "午": "马", "未": "羊", "申": "猴", "酉": "鸡", "戌": "狗", "亥": "猪"
         };
 
         function parseChineseNumber(value) {
@@ -1317,22 +1550,22 @@
             const text = String(value).trim();
             if (/^\d+$/.test(text)) return parseInt(text, 10);
 
-            const digitMap = { '零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9 };
+            const digitMap = { "零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9 };
             if (Object.prototype.hasOwnProperty.call(digitMap, text)) {
                 return digitMap[text];
             }
-            if (text === '十') return 10;
+            if (text === "十") return 10;
 
-            if (text.startsWith('廿')) {
+            if (text.startsWith("廿")) {
                 const tail = text.slice(1);
                 return 20 + (tail ? (digitMap[tail] || 0) : 0);
             }
-            if (text.startsWith('卅')) {
+            if (text.startsWith("卅")) {
                 const tail = text.slice(1);
                 return 30 + (tail ? (digitMap[tail] || 0) : 0);
             }
-            if (text.includes('十')) {
-                const segs = text.split('十');
+            if (text.includes("十")) {
+                const segs = text.split("十");
                 const tens = segs[0] ? (digitMap[segs[0]] || 0) : 1;
                 const ones = segs[1] ? (digitMap[segs[1]] || 0) : 0;
                 return tens * 10 + ones;
@@ -1342,34 +1575,34 @@
         }
 
         function normalizeLunarMonth(monthValue) {
-            let monthText = String(monthValue || '').replace(/\s+/g, '');
-            if (!monthText) return '';
+            let monthText = String(monthValue || "").replace(/\s+/g, "");
+            if (!monthText) return "";
 
-            const leap = monthText.startsWith('闰');
+            const leap = monthText.startsWith("闰");
             if (leap) monthText = monthText.slice(1);
 
-            monthText = monthText.replace(/月/g, '');
+            monthText = monthText.replace(/月/g, "");
             const monthNum = parseChineseNumber(monthText);
-            let normalized = '';
+            let normalized = "";
 
             if (monthNum && monthNum >= 1 && monthNum <= 12) {
                 normalized = LUNAR_MONTH_NAMES[monthNum - 1];
-            } else if (monthText === '正') {
-                normalized = '正月';
-            } else if (monthText === '冬') {
-                normalized = '冬月';
-            } else if (monthText === '腊') {
-                normalized = '腊月';
+            } else if (monthText === "正") {
+                normalized = "正月";
+            } else if (monthText === "冬") {
+                normalized = "冬月";
+            } else if (monthText === "腊") {
+                normalized = "腊月";
             } else if (monthText) {
-                normalized = monthText.endsWith('月') ? monthText : `${monthText}月`;
+                normalized = monthText.endsWith("月") ? monthText : `${monthText}月`;
             }
 
             return leap ? `闰${normalized}` : normalized;
         }
 
         function normalizeLunarDay(dayValue) {
-            const dayText = String(dayValue || '').replace(/\s+/g, '').replace(/[日号]/g, '');
-            if (!dayText) return '';
+            const dayText = String(dayValue || "").replace(/\s+/g, "").replace(/[日号]/g, "");
+            if (!dayText) return "";
             if (LUNAR_DAY_NAMES.includes(dayText)) return dayText;
 
             const dayNum = parseChineseNumber(dayText);
@@ -1380,109 +1613,84 @@
         }
 
         function formatDateWithLunar(dateStr) {
-            const date = new Date(dateStr + 'T00:00:00');
+            const date = new Date(String(dateStr || "") + "T00:00:00");
             if (Number.isNaN(date.getTime())) {
-                return dateStr || '';
+                return dateStr || "";
             }
 
-            const solarDate = date.toLocaleDateString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
+            const solarDate = date.toLocaleDateString("zh-CN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
             });
 
             try {
-                const lunarFormatter = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                const lunarFormatter = new Intl.DateTimeFormat("zh-CN-u-ca-chinese", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
                 });
 
                 const parts = lunarFormatter.formatToParts(date);
-                const relatedYear = (parts.find(part => part.type === 'relatedYear')?.value || '').replace(/[^\d]/g, '');
-                const yearName = (parts.find(part => part.type === 'yearName')?.value || '').replace(/[年\s]/g, '');
-                const lunarMonth = normalizeLunarMonth(parts.find(part => part.type === 'month')?.value || '');
-                const lunarDay = normalizeLunarDay(parts.find(part => part.type === 'day')?.value || '');
-                const zodiac = ZODIAC_BY_ZHI[yearName.slice(-1)] || '';
+                const relatedYear = (parts.find(part => part.type === "relatedYear")?.value || "").replace(/[^\d]/g, "");
+                const yearName = (parts.find(part => part.type === "yearName")?.value || "").replace(/[年\s]/g, "");
+                const lunarMonth = normalizeLunarMonth(parts.find(part => part.type === "month")?.value || "");
+                const lunarDay = normalizeLunarDay(parts.find(part => part.type === "day")?.value || "");
+                const zodiac = ZODIAC_BY_ZHI[yearName.slice(-1)] || "";
 
                 if (relatedYear && yearName && lunarMonth && lunarDay) {
                     return `${solarDate}（农历${relatedYear}${yearName}${zodiac}年${lunarMonth}${lunarDay}）`;
                 }
 
-                const lunarDate = lunarFormatter.format(date).replace(/\s+/g, '');
+                const lunarDate = lunarFormatter.format(date).replace(/\s+/g, "");
                 return `${solarDate}（农历${lunarDate}）`;
             } catch (error) {
                 // Browser/runtime does not support chinese calendar in Intl.
                 return solarDate;
             }
         }
-        
-        // 批量转换历史记录中的日期
+
         function convertHistoricalRecords() {
-            if (!records || !Array.isArray(records)) return;
-            
-            for (const record of records) {
-                if (record.date) {
-                    record.formattedDate = formatDateWithLunar(record.date);
+            if (Array.isArray(records)) {
+                for (const record of records) {
+                    if (record.date) {
+                        record.formattedDate = formatDateWithLunar(record.date);
+                    }
                 }
             }
-            
-            if (!giftBooks || !Array.isArray(giftBooks)) return;
-            
-            for (const book of giftBooks) {
-                if (book.date) {
-                    book.formattedDate = formatDateWithLunar(book.date);
+            if (Array.isArray(giftBooks)) {
+                for (const book of giftBooks) {
+                    if (book.date) {
+                        book.formattedDate = formatDateWithLunar(book.date);
+                    }
                 }
             }
         }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', async function() {
-            // 动态设置版本号
+        document.addEventListener("DOMContentLoaded", async function() {
             await setAppVersion();
-            
-            // 检查登录状态
-            checkLoginStatus();
-            
-            // 如果已登录，加载数据
-            const session = sessionStorage.getItem(SESSION_KEY);
-            if (session === 'logged-in') {
-                // 加载数据
-                await loadData();
-                
-                // 设置今天的日期
-                document.getElementById('date').valueAsDate = new Date();
-                document.getElementById('gb-date').valueAsDate = new Date();
-                
-                // 渲染记录列表
-                renderRecords();
-                renderStatistics();
-                renderGiftBooks();
-                updateYearFilter();
-                
-                // 初始化礼薄选择显示状态
-                toggleGiftBookSelection();
-                
-                // 点击页面其他地方关闭联想提示
-                document.addEventListener('click', function(e) {
-                    // 关闭添加记录的联想提示
-                    if (e.target.id !== 'name') {
-                        const suggestions = document.getElementById('contact-suggestions');
-                        if (suggestions) {
-                            suggestions.style.display = 'none';
-                        }
+            await checkLoginStatus();
+
+            document.getElementById("date").valueAsDate = new Date();
+            document.getElementById("gb-date").valueAsDate = new Date();
+
+            document.addEventListener("click", function(e) {
+                if (e.target.id !== "name") {
+                    const suggestions = document.getElementById("contact-suggestions");
+                    if (suggestions) {
+                        suggestions.style.display = "none";
                     }
-                    // 关闭宾客联想提示
-                    if (!e.target.id.startsWith('guest-name-')) {
-                        document.querySelectorAll('.guest-suggestions').forEach(div => {
-                            div.style.display = 'none';
-                        });
-                    }
-                });
-            }
+                }
+                if (!String(e.target.id || "").startsWith("guest-name-")) {
+                    document.querySelectorAll(".guest-suggestions").forEach(div => {
+                        div.style.display = "none";
+                    });
+                }
+            });
         });
 
-        // 显示联系人建议
+        // ��ʾ��ϵ�˽���
+
         function showContactSuggestions() {
             const input = document.getElementById('name');
             const searchText = input.value.trim().toLowerCase();
@@ -1532,7 +1740,7 @@
             suggestionsDiv.style.width = inputRect.width + 'px';
         }
 
-        // 选择联系人
+        // 选择联系�?
         function selectContact(name, relationship) {
             document.getElementById('name').value = name;
             if (relationship && relationship !== '未知') {
@@ -1555,7 +1763,7 @@
             Array.from(years).sort((a, b) => b - a).forEach(year => {
                 const option = document.createElement('option');
                 option.value = year;
-                option.textContent = year + ' 年';
+                option.textContent = `${year} 年`;
                 yearFilter.appendChild(option);
             });
         }
@@ -1564,7 +1772,7 @@
         document.getElementById('record-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const record = {
+            const record = sanitizeRecord({
                 id: Date.now(),
                 type: document.getElementById('type').value,
                 name: document.getElementById('name').value,
@@ -1576,7 +1784,11 @@
                 notes: document.getElementById('notes').value,
                 giftBookId: document.getElementById('giftbook').value || null,
                 createTime: new Date().toISOString()
-            };
+            });
+            if (!record.name || !Number.isFinite(record.amount) || record.amount <= 0) {
+                alert('请填写有效的姓名和金额');
+                return;
+            }
 
             records.push(record);
             
@@ -1602,11 +1814,11 @@
             document.getElementById('date').valueAsDate = new Date();
             document.getElementById('giftbook-selection').style.display = 'none';
             
-            // 切换到列表页面
+            // 切换到列表页�?
             switchTab('list');
             
             // 显示成功消息
-            alert('✅ 记录已成功保存！');
+            alert('记录已保存');
         });
 
         // 切换礼薄选择显示
@@ -1627,7 +1839,7 @@
         // 更新礼薄选项
         function updateGiftBookOptions() {
             const select = document.getElementById('giftbook');
-            select.innerHTML = '<option value="">不关联礼薄</option>';
+            select.innerHTML = '<option value="">不关联礼簿</option>';
             
             giftBooks.forEach(book => {
                 const option = document.createElement('option');
@@ -1637,17 +1849,17 @@
             });
         }
 
-        // 当礼薄选择变化时
+        // 当礼薄选择变化�?
         function onGiftBookChange() {
             const giftbookId = document.getElementById('giftbook').value;
             
             if (giftbookId) {
                 const book = giftBooks.find(b => b.id == giftbookId);
                 if (book) {
-                    // 自动填充事由和日期
+                    // 自动填充事由和日�?
                     document.getElementById('event').value = book.eventType;
                     document.getElementById('date').value = book.date;
-                    // 如果礼薄有地点，也可以填充
+                    // 如果礼薄有地点，也可以填�?
                     if (book.location && !document.getElementById('location').value) {
                         document.getElementById('location').value = book.location;
                     }
@@ -1658,25 +1870,22 @@
         // 保存到服务器
         async function saveRecords() {
             try {
-                console.log('正在保存记录...', records.length, '条记录');
+                records = records.map(sanitizeRecord);
                 const response = await fetch(`${API_BASE}/api/records`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(records)
                 });
-                
-                if (response.ok) {
-                    console.log('记录保存成功');
-                } else {
-                    console.error('记录保存失败，HTTP状态码:', response.status);
+                if (isUnauthorizedResponse(response)) {
+                    await logout();
+                    return;
+                }
+                if (!response.ok) {
                     throw new Error('服务器响应错误: ' + response.status);
                 }
-                
-                // 同时保存到localStorage作为备份
                 localStorage.setItem('renqing-records', JSON.stringify(records));
             } catch (error) {
                 console.error('保存记录失败:', error);
-                // 如果API失败，至少保存到localStorage
                 localStorage.setItem('renqing-records', JSON.stringify(records));
                 alert('数据保存失败: ' + error.message);
             }
@@ -1688,22 +1897,28 @@
         // 保存礼薄到服务器
         async function saveGiftBooks() {
             try {
-                await fetch(`${API_BASE}/api/giftbooks`, {
+                giftBooks = giftBooks.map(sanitizeGiftBook);
+                const response = await fetch(`${API_BASE}/api/giftbooks`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(giftBooks)
                 });
-                // 同时保存到localStorage作为备份
+                if (isUnauthorizedResponse(response)) {
+                    await logout();
+                    return;
+                }
+                if (!response.ok) {
+                    throw new Error('服务器响应错误: ' + response.status);
+                }
                 localStorage.setItem('renqing-giftbooks', JSON.stringify(giftBooks));
             } catch (error) {
-                console.error('保存礼薄失败:', error);
-                // 如果API失败，至少保存到localStorage
+                console.error('保存礼簿失败:', error);
                 localStorage.setItem('renqing-giftbooks', JSON.stringify(giftBooks));
             }
             renderGiftBooks();
         }
 
-        // 切换标签页
+        // 切换标签�?
         function switchTab(tabName) {
             // 更新标签按钮
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -1736,11 +1951,17 @@
                 return;
             }
 
-            // 按日期排序（最新的在前）
+            // 按日期排序（最新的在前�?
             const sortedRecords = [...recordsToShow].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             container.innerHTML = sortedRecords.map(record => {
                 const linkedBook = record.giftBookId ? giftBooks.find(b => b.id == record.giftBookId) : null;
+                const fullDateRaw = record.formattedDate || formatDateWithLunar(record.date);
+                const fullDateText = escapeHtml(fullDateRaw);
+                const relationshipText = record.relationship || '<span class="record-placeholder">--</span>';
+                const locationText = record.location || '<span class="record-placeholder">--</span>';
+                const notesText = record.notes || '<span class="record-placeholder">--</span>';
+                const notesTitle = record.notes || '--';
                 
                 return `
                 <div class="record-card ${record.type}" id="record-${record.id}">
@@ -1799,9 +2020,9 @@
                         </div>
                         ${record.type === 'received' ? `
                             <div style="margin-bottom: 10px;">
-                                <label style="font-size: 12px;">关联礼薄</label>
+                                <label style="font-size: 12px;">关联礼簿</label>
                                 <select id="edit-giftbook-${record.id}" style="width: 100%; padding: 8px; border: 1px solid #d9d9d9; border-radius: 4px;">
-                                    <option value="">不关联礼薄</option>
+                                    <option value="">不关联礼簿</option>
                                     ${giftBooks.map(book => `
                                         <option value="${book.id}" ${record.giftBookId == book.id ? 'selected' : ''}>
                                             ${book.eventName} (${book.date})
@@ -1821,30 +2042,22 @@
                     </div>
                     
                     <!-- 显示详情 -->
-                    <div id="display-${record.id}">
+                    <div id="display-${record.id}" class="record-display">
                         <div class="record-details">
-                            <div class="record-detail">
-                                <strong>事由：</strong>${eventMap[record.event]}
+                            <div class="record-detail pair">
+                                <strong>事由:</strong><span>${eventMap[record.event]}</span>
+                                <strong>关系:</strong><span>${relationshipText}</span>
                             </div>
-                            <div class="record-detail">
-                                <strong>日期：</strong>${record.formattedDate || formatDateWithLunar(record.date)}
+                            <div class="record-detail single">
+                                <strong>日期:</strong><span>${fullDateText}</span>
                             </div>
-                            ${record.relationship ? `
-                                <div class="record-detail">
-                                    <strong>关系：</strong>${record.relationship}
-                                </div>
-                            ` : ''}
-                            ${record.location ? `
-                                <div class="record-detail">
-                                    <strong>地点：</strong>${record.location}
-                                </div>
-                            ` : ''}
+                            <div class="record-detail single">
+                                <strong>地点:</strong><span>${locationText}</span>
+                            </div>
                         </div>
-                        ${record.notes ? `
-                            <div style="margin-top: 10px; color: #666; font-size: 14px;">
-                                <strong>备注：</strong>${record.notes}
-                            </div>
-                        ` : ''}
+                        <div class="record-note" title="${notesTitle}">
+                            <strong>备注:</strong><span>${notesText}</span>
+                        </div>
                         <div class="record-actions">
                             <button class="btn btn-small" style="background: #1890ff; color: white;" onclick="showEdit(${record.id})">
                                 ✏️ 编辑
@@ -1879,7 +2092,7 @@
             // CSV表头
             const headers = ['姓名', '类型', '金额', '事由', '日期', '关系', '地点', '备注'];
             
-            // CSV数据行
+            // CSV数据�?
             const rows = records.map(record => {
                 return [
                     record.name,
@@ -1897,7 +2110,7 @@
                 }).join(',');
             });
             
-            // 组合CSV内容，添加BOM以支持中文
+            // 组合CSV内容，添加BOM以支持中�?
             const csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
             
             // 创建下载链接
@@ -1942,7 +2155,7 @@
                     const noteIdx = headers.findIndex(h => h.includes('备注'));
                     
                     if (nameIdx === -1 || amountIdx === -1) {
-                        alert('文件格式不正确，请确保包含"姓名"和"金额"列');
+                        alert('文件格式不正确，请确保包含“姓名”和“金额”列。');
                         return;
                     }
                     
@@ -1977,7 +2190,7 @@
                         const eventStr = values[eventIdx]?.trim() || '其他';
                         const dateStr = values[dateIdx]?.trim() || new Date().toISOString().split('T')[0];
                         
-                        const newRecord = {
+                        const newRecord = sanitizeRecord({
                             id: Date.now() + i,
                             name: name,
                             type: typeStr.includes('送') ? 'given' : 'received',
@@ -1987,7 +2200,7 @@
                             relationship: values[relIdx]?.trim() || '',
                             location: values[locIdx]?.trim() || '',
                             notes: values[noteIdx]?.trim() || ''
-                        };
+                        });
                         
                         records.push(newRecord);
                         importedCount++;
@@ -2005,9 +2218,9 @@
                         updateYearFilter();
                         updateStats();
                         
-                        alert(`成功导入 ${importedCount} 条记录！${skippedCount > 0 ? `\n跳过 ${skippedCount} 条无效记录` : ''}`);
+                        alert(`成功导入 ${importedCount} 条记录${skippedCount > 0 ? `\n跳过 ${skippedCount} 条无效记录` : ''}`);
                     } else {
-                        alert('没有找到有效的记录数据');
+                        alert('未找到有效记录数据');
                     }
                 } catch (err) {
                     console.error('导入失败:', err);
@@ -2020,7 +2233,7 @@
             event.target.value = '';
         }
         
-        // 解析CSV行（处理引号和逗号）
+        // 解析CSV行（处理引号和逗号�?
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -2088,13 +2301,17 @@
             const oldRelationship = record.relationship;
             
             // 更新记录
-            record.name = document.getElementById(`edit-name-${id}`).value;
+            record.name = sanitizeText(document.getElementById(`edit-name-${id}`).value, 80);
             record.amount = parseFloat(document.getElementById(`edit-amount-${id}`).value);
             record.date = document.getElementById(`edit-date-${id}`).value;
             record.event = document.getElementById(`edit-event-${id}`).value;
-            record.relationship = document.getElementById(`edit-relationship-${id}`).value;
-            record.location = document.getElementById(`edit-location-${id}`).value;
-            record.notes = document.getElementById(`edit-notes-${id}`).value;
+            record.relationship = sanitizeText(document.getElementById(`edit-relationship-${id}`).value, 40);
+            record.location = sanitizeText(document.getElementById(`edit-location-${id}`).value, 120);
+            record.notes = sanitizeText(document.getElementById(`edit-notes-${id}`).value, 500);
+            if (!record.name || !Number.isFinite(record.amount) || record.amount <= 0) {
+                alert('请填写有效的姓名和金额');
+                return;
+            }
             
             // 处理礼薄关联变更
             if (record.type === 'received') {
@@ -2143,7 +2360,7 @@
             
             saveRecords();
             cancelEdit(id);
-            alert('✅ 修改已保存！');
+            alert('修改已保存');
         }
 
         // 删除记录
@@ -2258,7 +2475,7 @@
                 filteredRecords = records.filter(r => new Date(r.date).getFullYear().toString() === year);
             }
             
-            // 按事由统计
+            // 按事由统�?
             const eventStats = {};
             Object.keys(eventMap).forEach(key => {
                 eventStats[key] = {
@@ -2308,17 +2525,17 @@
             `;
         }
 
-        // 显示指定年份的事由统计
+        // 显示指定年份的事由统�?
         function showYearEventStats(year) {
             // 更新标题
             document.getElementById('event-stats-title').textContent = `📊 事由统计（${year} 年）`;
             
-            // 移除所有年份卡片的激活状态
+            // 移除所有年份卡片的激活状�?
             document.querySelectorAll('.year-stat-card').forEach(card => {
                 card.classList.remove('active');
             });
             
-            // 激活当前年份卡片
+            // 激活当前年份卡�?
             const yearCard = document.getElementById(`year-card-${year}`);
             if (yearCard) {
                 yearCard.classList.add('active');
@@ -2327,7 +2544,7 @@
             // 渲染该年份的事由统计
             renderEventStats(year);
             
-            // 滚动到事由统计区域
+            // 滚动到事由统计区�?
             document.getElementById('event-stats-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -2343,7 +2560,7 @@
             }
         }
 
-        // 排序亲友录
+        // 排序亲友�?
         let contactsSortField = null;
         let contactsSortAsc = true;
         let collapsedGroups = {}; // 记录折叠状态，默认全部折叠
@@ -2362,30 +2579,37 @@
             renderContacts(searchText);
         }
         
-        // 切换关系分组的展开/折叠状态
+        // 切换关系分组的展开/折叠状�?
+        function getContactGroupDomId(relationship) {
+            return encodeURIComponent(String(relationship || '其他'));
+        }
+
         function toggleContactGroup(relationship) {
             collapsedGroups[relationship] = !collapsedGroups[relationship];
-            const listEl = document.getElementById(`contact-list-${relationship}`);
-            const arrowEl = document.getElementById(`arrow-${relationship}`);
+            const groupId = getContactGroupDomId(relationship);
+            const listEl = document.getElementById(`contact-list-${groupId}`);
+            const arrowEl = document.getElementById(`arrow-${groupId}`);
+            if (!listEl || !arrowEl) return;
+
             if (collapsedGroups[relationship]) {
                 listEl.style.display = 'none';
-                arrowEl.textContent = '▶';
+                arrowEl.textContent = '▸';
             } else {
-                listEl.style.display = 'block';
-                arrowEl.textContent = '▼';
+                listEl.style.display = 'grid';
+                arrowEl.textContent = '▾';
             }
         }
 
-        // 渲染亲友录
         function renderContacts(searchText = '') {
             const contactsMap = {};
-            
-            // 统计每个人的收支情况
+
             records.forEach(record => {
-                const name = record.name;
+                const name = String(record.name || '').trim();
+                if (!name) return;
+
                 if (!contactsMap[name]) {
                     contactsMap[name] = {
-                        name: name,
+                        name,
                         relationship: record.relationship || '其他',
                         received: 0,
                         given: 0,
@@ -2394,7 +2618,7 @@
                         records: []
                     };
                 }
-                
+
                 if (record.type === 'received') {
                     contactsMap[name].received += record.amount;
                     contactsMap[name].receivedCount++;
@@ -2402,57 +2626,38 @@
                     contactsMap[name].given += record.amount;
                     contactsMap[name].givenCount++;
                 }
-                
                 contactsMap[name].records.push(record);
             });
-            
-            // 转换为数组并按关系分组
+
             const contacts = Object.values(contactsMap);
-            
-            // 过滤搜索
-            const filteredContacts = searchText 
+            let filteredContacts = searchText
                 ? contacts.filter(c => c.name.toLowerCase().includes(searchText.toLowerCase()))
                 : contacts;
-            
-            // 按关系分组
+
+            if (contactsSortField) {
+                filteredContacts = [...filteredContacts].sort((a, b) => {
+                    if (contactsSortField === 'name') {
+                        const aVal = a.name.toLowerCase();
+                        const bVal = b.name.toLowerCase();
+                        return contactsSortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                    }
+                    if (contactsSortField === 'amount') {
+                        const aVal = a.received + a.given;
+                        const bVal = b.received + b.given;
+                        return contactsSortAsc ? aVal - bVal : bVal - aVal;
+                    }
+                    return 0;
+                });
+            }
+
             const groupedContacts = {};
             filteredContacts.forEach(contact => {
                 const rel = contact.relationship || '其他';
-                if (!groupedContacts[rel]) {
-                    groupedContacts[rel] = [];
-                }
+                if (!groupedContacts[rel]) groupedContacts[rel] = [];
                 groupedContacts[rel].push(contact);
             });
-            
-            // 排序（在分组前）
-            if (contactsSortField) {
-                filteredContacts.sort((a, b) => {
-                    let aVal, bVal;
-                    if (contactsSortField === 'name') {
-                        aVal = a.name.toLowerCase();
-                        bVal = b.name.toLowerCase();
-                        return contactsSortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-                    } else if (contactsSortField === 'amount') {
-                        aVal = a.received + a.given;
-                        bVal = b.received + b.given;
-                        return contactsSortAsc ? aVal - bVal : bVal - aVal;
-                    }
-                });
-                
-                // 重新分组
-                const newGrouped = {};
-                filteredContacts.forEach(contact => {
-                    const rel = contact.relationship || '其他';
-                    if (!newGrouped[rel]) {
-                        newGrouped[rel] = [];
-                    }
-                    newGrouped[rel].push(contact);
-                });
-                Object.assign(groupedContacts, newGrouped);
-            }
-            
+
             const container = document.getElementById('contacts-container');
-            
             if (filteredContacts.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
@@ -2462,8 +2667,7 @@
                 `;
                 return;
             }
-            
-            // 按关系排序（常见关系在前）
+
             const relationshipOrder = ['亲戚', '朋友', '同事', '同学', '邻居', '其他'];
             const sortedGroups = Object.keys(groupedContacts).sort((a, b) => {
                 const indexA = relationshipOrder.indexOf(a);
@@ -2473,35 +2677,36 @@
                 if (indexB === -1) return -1;
                 return indexA - indexB;
             });
-            
+
             container.innerHTML = sortedGroups.map(relationship => {
                 const groupContacts = groupedContacts[relationship];
                 const totalCount = groupContacts.length;
-                
-                // 如果没有记录过折叠状态，默认为折叠
+
                 if (collapsedGroups[relationship] === undefined) {
                     collapsedGroups[relationship] = true;
                 }
                 const isCollapsed = collapsedGroups[relationship];
-                const arrow = isCollapsed ? '▶' : '▼';
-                
+                const arrow = isCollapsed ? '▸' : '▾';
+                const groupId = getContactGroupDomId(relationship);
+                const relationshipEscaped = relationship.replace(/'/g, "\\'");
+
                 return `
                     <div class="contact-group">
-                        <div class="contact-group-title" style="cursor: pointer; user-select: none;" onclick="toggleContactGroup('${relationship}')">
-                            <span><span id="arrow-${relationship}" style="display: inline-block; width: 20px;">${arrow}</span>${relationship}</span>
+                        <div class="contact-group-title" style="cursor: pointer; user-select: none;" onclick="toggleContactGroup('${relationshipEscaped}')">
+                            <span><span id="arrow-${groupId}" style="display: inline-block; width: 20px;">${arrow}</span>${relationship}</span>
                             <span>${totalCount} 人</span>
                         </div>
-                        <div class="contact-list" id="contact-list-${relationship}" style="display: ${isCollapsed ? 'none' : 'block'};">
+                        <div class="contact-list" id="contact-list-${groupId}" style="display: ${isCollapsed ? 'none' : 'grid'};">
                             ${groupContacts.map(contact => {
                                 const balance = contact.received - contact.given;
                                 const balanceClass = balance > 0 ? 'positive' : balance < 0 ? 'negative' : '';
-                                
+                                const safeName = contact.name.replace(/'/g, "\\'");
                                 return `
-                                    <div class="contact-item" onclick="showContactDetail('${contact.name}')">
+                                    <div class="contact-item" onclick="showContactDetail('${safeName}')">
                                         <div class="contact-name">👤 ${contact.name}</div>
                                         <div class="contact-stats">
-                                            <span style="color: #52c41a;">收 ${contact.receivedCount}</span>
-                                            <span style="color: #ff4757;">送 ${contact.givenCount}</span>
+                                            <span style="color: #52c41a;">收 ${contact.receivedCount} 次 · ¥${contact.received.toFixed(2)}</span>
+                                            <span style="color: #ff4757;">送 ${contact.givenCount} 次 · ¥${contact.given.toFixed(2)}</span>
                                         </div>
                                         <div class="contact-balance ${balanceClass}">
                                             余额: ${balance >= 0 ? '+' : ''}¥${balance.toFixed(2)}
@@ -2515,7 +2720,6 @@
             }).join('');
         }
 
-        // 过滤亲友
         function filterContacts() {
             const searchText = document.getElementById('contact-search').value;
             renderContacts(searchText);
@@ -2534,7 +2738,7 @@
             const relationship = contactRecords[0]?.relationship || '未知';
             
             const modalContent = `
-                <button class="modal-close" onclick="closeModal()">✕</button>
+                <button class="modal-close" onclick="closeModal()">×</button>
                 <h2 style="margin-bottom: 20px;">👤 ${name}</h2>
                 <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center;">
@@ -2596,7 +2800,7 @@
             const newRelationship = prompt('请输入新的关系：', currentRelationship);
             
             if (newRelationship !== null && newRelationship.trim() !== '') {
-                // 更新所有该姓名的记录
+                // 更新所有该姓名的记�?
                 let updated = false;
                 records.forEach(record => {
                     if (record.name === name) {
@@ -2609,7 +2813,7 @@
                     saveRecords();
                     // 刷新模态框
                     showContactDetail(name);
-                    // 刷新亲友录
+                    // 刷新亲友�?
                     renderContacts(document.getElementById('contact-search').value);
                 }
             }
@@ -2633,7 +2837,7 @@
         document.getElementById('gift-book-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const giftBook = {
+            const giftBook = sanitizeGiftBook({
                 id: Date.now(),
                 eventName: document.getElementById('gb-event-name').value,
                 eventType: document.getElementById('gb-event-type').value,
@@ -2642,7 +2846,11 @@
                 notes: document.getElementById('gb-notes').value,
                 guests: [],
                 createTime: new Date().toISOString()
-            };
+            });
+            if (!giftBook.eventName) {
+                alert('请填写事由名称');
+                return;
+            }
 
             giftBooks.push(giftBook);
             saveGiftBooks();
@@ -2651,10 +2859,10 @@
             this.reset();
             document.getElementById('gb-date').valueAsDate = new Date();
             
-            // 关闭表单，显示列表
+            // 关闭表单，显示列�?
             toggleGiftBookForm();
             
-            alert('✅ 礼薄创建成功！');
+            alert('礼簿创建成功');
         });
 
         // 切换礼薄表单显示/隐藏
@@ -2664,22 +2872,41 @@
             
             if (isVisible) {
                 formContainer.style.display = 'none';
-                document.getElementById('create-giftbook-btn').textContent = '➕ 创建礼薄';
+                document.getElementById('create-giftbook-btn').textContent = '➕ 创建礼簿';
             } else {
                 formContainer.style.display = 'block';
                 document.getElementById('create-giftbook-btn').textContent = '📋 查看列表';
-                // 滚动到表单位置
+                // 滚动到表单位�?
                 formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
         // 渲染礼薄列表
+        const giftBookExpandState = {};
+
+        function toggleGiftBookExpand(bookId) {
+            const nextExpanded = !giftBookExpandState[bookId];
+            giftBookExpandState[bookId] = nextExpanded;
+
+            const card = document.getElementById(`giftbook-${bookId}`);
+            const content = document.getElementById(`giftbook-content-${bookId}`);
+            const toggle = document.getElementById(`giftbook-toggle-${bookId}`);
+
+            if (!card || !content || !toggle) {
+                return;
+            }
+
+            card.classList.toggle('expanded', nextExpanded);
+            content.classList.toggle('collapsed', !nextExpanded);
+            toggle.textContent = nextExpanded ? '收起' : '展开';
+        }
+
         function renderGiftBooks() {
             const container = document.getElementById('gift-books-container');
             console.log('渲染礼薄列表, 数量:', giftBooks.length);
             
             if (!container) {
-                console.error('找不到礼薄容器元素');
+                console.error('未找到礼簿容器元素');
                 return;
             }
             
@@ -2687,25 +2914,29 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <p style="font-size: 48px;">📕</p>
-                        <p style="font-size: 18px; margin-top: 10px;">暂无礼薄</p>
-                        <p style="font-size: 14px; margin-top: 5px;">创建礼薄开始记录收礼情况</p>
+                        <p style="font-size: 18px; margin-top: 10px;">暂无礼簿</p>
+                        <p style="font-size: 14px; margin-top: 5px;">创建礼簿开始记录收礼情况</p>
                     </div>
                 `;
                 return;
             }
 
-            // 按日期排序（最新的在前）
+            // 按日期排序（最新的在前�?
             const sortedBooks = [...giftBooks].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             container.innerHTML = sortedBooks.map(book => {
                 const totalAmount = book.guests.reduce((sum, guest) => sum + guest.amount, 0);
                 const guestCount = book.guests.length;
+                const formattedDate = book.formattedDate || formatDateWithLunar(book.date);
+                const locationText = book.location || '<span class="record-placeholder">--</span>';
+                const notesText = book.notes || '<span class="record-placeholder">--</span>';
+                const isExpanded = !!giftBookExpandState[book.id];
                 
                 return `
-                    <div class="record-card" style="border-left-color: #fa8c16;" id="giftbook-${book.id}">
+                    <div class="record-card ${isExpanded ? 'expanded' : ''}" style="border-left-color: #fa8c16;" id="giftbook-${book.id}">
                         <!-- 编辑表单 -->
                         <div id="giftbook-edit-form-${book.id}" style="display: none; background: #f0f0f0; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                            <h4 style="margin-bottom: 15px;">✏️ 编辑礼薄</h4>
+                            <h4 style="margin-bottom: 15px;">✏️ 编辑礼簿</h4>
                             <div style="margin-bottom: 10px;">
                                 <label style="font-size: 12px; font-weight: bold;">事由名称</label>
                                 <input type="text" id="edit-gb-name-${book.id}" value="${book.eventName}" style="width: 100%; padding: 8px; border: 1px solid #d9d9d9; border-radius: 4px; margin-top: 5px;">
@@ -2759,20 +2990,20 @@
                         </div>
                         <div class="record-details">
                             <div class="record-detail">
-                                <strong>日期：</strong>${book.formattedDate || formatDateWithLunar(book.date)}
+                                <strong>日期:</strong>${book.formattedDate || formatDateWithLunar(book.date)}
                             </div>
                             <div class="record-detail">
-                                <strong>宾客：</strong>${guestCount} 人
+                                <strong>宾客:</strong>${guestCount} 人
                             </div>
                             ${book.location ? `
                                 <div class="record-detail">
-                                    <strong>地点：</strong>${book.location}
+                                    <strong>地点:</strong>${book.location}
                                 </div>
                             ` : ''}
                         </div>
                         ${book.notes ? `
                             <div style="margin-top: 10px; color: #666; font-size: 14px;">
-                                <strong>备注：</strong>${book.notes}
+                                <strong>备注:</strong>${book.notes}
                             </div>
                         ` : ''}
                         
@@ -2878,13 +3109,13 @@
                         
                         <div class="record-actions" style="margin-top: 15px;">
                             <button class="btn btn-small" style="background: #1890ff; color: white;" onclick="showGiftBookEdit(${book.id})">
-                                ✏️ 编辑礼薄
+                                ✏️ 编辑礼簿
                             </button>
                             <button class="btn btn-small" style="background: #1890ff; color: white;" onclick="exportGiftBook(${book.id})">
-                                📥 导出礼薄
+                                📥 导出礼簿
                             </button>
                             <button class="btn btn-small btn-delete" onclick="deleteGiftBook(${book.id})">
-                                🗑️ 删除礼薄
+                                🗑️ 删除礼簿
                             </button>
                         </div>
                         </div>
@@ -2894,6 +3125,127 @@
         }
 
         // 显示礼薄编辑表单
+        const renderGiftBooksBase = renderGiftBooks;
+        renderGiftBooks = function renderGiftBooksCompact() {
+            renderGiftBooksBase();
+
+            const sortedBooks = [...giftBooks].sort((a, b) => new Date(b.date) - new Date(a.date));
+            sortedBooks.forEach(book => {
+                const card = document.getElementById(`giftbook-${book.id}`);
+                const display = document.getElementById(`giftbook-display-${book.id}`);
+                if (!card || !display) {
+                    return;
+                }
+
+                const header = display.querySelector(':scope > .record-header');
+                const details = display.querySelector(':scope > .record-details');
+                if (!header || !details) {
+                    return;
+                }
+
+                const rightWrapClass = 'giftbook-summary-right';
+                let amount = header.querySelector(':scope > .record-amount');
+                if (amount && !amount.parentElement.classList.contains(rightWrapClass)) {
+                    const wrap = document.createElement('div');
+                    wrap.className = rightWrapClass;
+                    wrap.style.display = 'flex';
+                    wrap.style.alignItems = 'center';
+                    header.appendChild(wrap);
+                    wrap.appendChild(amount);
+                    amount = wrap.querySelector('.record-amount');
+                }
+
+                const formattedDate = book.formattedDate || formatDateWithLunar(book.date);
+                const locationText = book.location || '<span class="record-placeholder">--</span>';
+                const notesText = book.notes || '<span class="record-placeholder">--</span>';
+                const guestCount = Array.isArray(book.guests) ? book.guests.length : 0;
+                const eventText = eventMap[book.eventType] || eventMap.other || '其他';
+                const expanded = !!giftBookExpandState[book.id];
+
+                details.classList.add('giftbook-summary-details');
+                details.innerHTML = `
+                    <div class="record-detail single">
+                        <strong>事由:</strong><span>${eventText}</span>
+                    </div>
+                    <div class="record-detail single">
+                        <strong>日期:</strong><span>${formattedDate}</span>
+                    </div>
+                    <div class="record-detail single">
+                        <strong>地点:</strong><span>${locationText}</span>
+                    </div>
+                    <div class="record-detail single">
+                        <strong>宾客:</strong><span>${guestCount} 人</span>
+                    </div>
+                `;
+
+                const legacyNote = Array.from(display.children).find(el => {
+                    if (el === header || el === details || (el.id || '').startsWith('guest-form-')) {
+                        return false;
+                    }
+                    if ((el.className || '').includes('record-actions')) {
+                        return false;
+                    }
+                    const style = el.getAttribute && el.getAttribute('style');
+                    return !!style && style.includes('font-size: 14px');
+                });
+                if (legacyNote) {
+                    legacyNote.remove();
+                }
+
+                let note = display.querySelector(':scope > .record-note');
+                if (!note) {
+                    note = document.createElement('div');
+                    note.className = 'record-note';
+                    display.insertBefore(note, details.nextSibling);
+                }
+                note.innerHTML = `<strong>备注:</strong><span>${notesText}</span>`;
+
+                let summary = display.querySelector(':scope > .giftbook-summary');
+                if (!summary) {
+                    summary = document.createElement('div');
+                    summary.className = 'giftbook-summary';
+                    display.insertBefore(summary, header);
+                }
+                if (!summary.contains(header)) summary.appendChild(header);
+                if (!summary.contains(details)) summary.appendChild(details);
+                if (!summary.contains(note)) summary.appendChild(note);
+
+                summary.onclick = () => toggleGiftBookExpand(book.id);
+
+                let toggleBtn = document.getElementById(`giftbook-toggle-${book.id}`);
+                if (!toggleBtn) {
+                    toggleBtn = document.createElement('button');
+                    toggleBtn.type = 'button';
+                    toggleBtn.id = `giftbook-toggle-${book.id}`;
+                    toggleBtn.className = 'giftbook-toggle';
+                    toggleBtn.onclick = (event) => {
+                        event.stopPropagation();
+                        toggleGiftBookExpand(book.id);
+                    };
+                    const rightWrap = amount ? amount.parentElement : header;
+                    rightWrap.appendChild(toggleBtn);
+                }
+                toggleBtn.textContent = expanded ? '收起' : '展开';
+
+                let content = document.getElementById(`giftbook-content-${book.id}`);
+                if (!content) {
+                    content = document.createElement('div');
+                    content.id = `giftbook-content-${book.id}`;
+                    content.className = 'giftbook-content';
+                    display.appendChild(content);
+                }
+
+                Array.from(display.children).forEach(child => {
+                    if (child !== summary && child !== content) {
+                        content.appendChild(child);
+                    }
+                });
+
+                content.classList.toggle('collapsed', !expanded);
+                card.classList.toggle('expanded', expanded);
+            });
+        };
+
         function showGiftBookEdit(bookId) {
             document.getElementById(`giftbook-display-${bookId}`).style.display = 'none';
             document.getElementById(`giftbook-edit-form-${bookId}`).style.display = 'block';
@@ -2914,28 +3266,32 @@
             const oldEventType = book.eventType;
             const oldLocation = book.location;
             
-            book.eventName = document.getElementById(`edit-gb-name-${bookId}`).value;
+            book.eventName = sanitizeText(document.getElementById(`edit-gb-name-${bookId}`).value, 80);
             book.eventType = document.getElementById(`edit-gb-type-${bookId}`).value;
             book.date = document.getElementById(`edit-gb-date-${bookId}`).value;
-            book.location = document.getElementById(`edit-gb-location-${bookId}`).value;
-            book.notes = document.getElementById(`edit-gb-notes-${bookId}`).value;
+            book.location = sanitizeText(document.getElementById(`edit-gb-location-${bookId}`).value, 120);
+            book.notes = sanitizeText(document.getElementById(`edit-gb-notes-${bookId}`).value, 500);
+            if (!book.eventName) {
+                alert('请填写事由名称');
+                return;
+            }
             
-            // 同步更新所有关联此礼薄的记录
+            // 同步更新所有关联此礼薄的记�?
             records.forEach(record => {
                 if (record.giftBookId == bookId) {
                     record.event = book.eventType;
                     record.date = book.date;
                     record.location = book.location || '';
                     // 更新备注中的礼薄名称
-                    if (record.notes && record.notes.includes('来自礼薄：')) {
-                        record.notes = `来自礼薄：${book.eventName}`;
+                    if (record.notes && record.notes.includes('来自礼簿：')) {
+                        record.notes = `来自礼簿：${book.eventName}`;
                     }
                 }
             });
             
             saveRecords();
             saveGiftBooks();
-            alert('✅ 礼薄已更新！关联的记录也已同步更新。');
+            alert('已更新，并同步关联记录');
         }
 
         // 显示添加宾客表单
@@ -2972,7 +3328,7 @@
             const contactsMap = {};
             records.forEach(record => {
                 const name = record.name;
-                // 按姓氏（第一个字）匹配
+                // 按姓氏（第一个字）匹�?
                 if (name.toLowerCase().startsWith(searchText) || name.toLowerCase().includes(searchText)) {
                     if (!contactsMap[name]) {
                         contactsMap[name] = {
@@ -3003,7 +3359,7 @@
             suggestionsDiv.style.display = 'block';
         }
 
-        // 选择宾客联系人
+        // 选择宾客联系�?
         function selectGuestContact(bookId, name, relationship) {
             document.getElementById(`guest-name-${bookId}`).value = name;
             if (relationship && relationship !== '未知') {
@@ -3012,7 +3368,7 @@
             document.getElementById(`guest-suggestions-${bookId}`).style.display = 'none';
         }
 
-        // 宾客排序状态
+        // 宾客排序状�?
         const guestSortState = {};
 
         // 获取排序箭头标识
@@ -3022,7 +3378,7 @@
                 return '<span class="sort-indicator" style="color: #999;">↕</span>';
             }
             return state.asc 
-                ? '<span class="sort-indicator" style="color: #1890ff;">↑</span>' 
+                ? '<span class="sort-indicator" style="color: #1890ff;">↑</span>'
                 : '<span class="sort-indicator" style="color: #1890ff;">↓</span>';
         }
 
@@ -3031,7 +3387,7 @@
             const book = giftBooks.find(b => b.id === bookId);
             if (!book || !book.guests || book.guests.length === 0) return;
             
-            // 初始化排序状态
+            // 初始化排序状�?
             if (!guestSortState[bookId]) {
                 guestSortState[bookId] = { field: null, asc: true };
             }
@@ -3067,19 +3423,19 @@
                 }
             });
             
-            // 保存并重新渲染
+            // 保存并重新渲�?
             saveGiftBooks();
             renderGiftBooks();
         }
 
         // 添加宾客
         function addGuest(bookId) {
-            const name = document.getElementById(`guest-name-${bookId}`).value.trim();
+            const name = sanitizeText(document.getElementById(`guest-name-${bookId}`).value.trim(), 80);
             const amount = parseFloat(document.getElementById(`guest-amount-${bookId}`).value);
-            const relationship = document.getElementById(`guest-relation-${bookId}`).value.trim();
+            const relationship = sanitizeText(document.getElementById(`guest-relation-${bookId}`).value.trim(), 40);
             
             if (!name || !amount || amount <= 0) {
-                alert('❌ 请填写宾客姓名和有效金额！');
+                alert('请填写有效的姓名和金额');
                 return;
             }
             
@@ -3105,7 +3461,7 @@
                     event: book.eventType,
                     relationship: relationship || '',
                     location: book.location || '',
-                    notes: `来自礼薄：${book.eventName}`,
+                    notes: `来自礼簿：${book.eventName}`,
                     giftBookId: bookId,
                     createTime: new Date().toISOString()
                 };
@@ -3138,12 +3494,12 @@
             const guest = book.guests.find(g => g.id === guestId);
             if (!guest) return;
             
-            const newName = document.getElementById(`guest-name-edit-${guestId}`).value.trim();
+            const newName = sanitizeText(document.getElementById(`guest-name-edit-${guestId}`).value.trim(), 80);
             const newAmount = parseFloat(document.getElementById(`guest-amount-edit-${guestId}`).value);
-            const newRelation = document.getElementById(`guest-relation-edit-${guestId}`).value.trim();
+            const newRelation = sanitizeText(document.getElementById(`guest-relation-edit-${guestId}`).value.trim(), 40);
             
             if (!newName || !newAmount || newAmount <= 0) {
-                alert('❌ 请填写有效的姓名和金额！');
+                alert('请填写有效的姓名和金额');
                 return;
             }
             
@@ -3163,7 +3519,7 @@
             
             saveGiftBooks();
             cancelGuestEdit(bookId, guestId);
-            alert('✅ 宾客信息已更新！');
+            alert('宾客信息已更新');
         }
 
         // 取消宾客编辑
@@ -3181,7 +3537,7 @@
 
         // 删除宾客
         function deleteGuest(bookId, guestId) {
-            if (confirm('确定要删除这位宾客的记录吗？\n同时会删除记录列表中的对应记录。')) {
+            if (confirm('确定要删除这位宾客记录吗？\n同时会删除记录列表中的对应记录。')) {
                 const book = giftBooks.find(b => b.id === bookId);
                 if (book) {
                     book.guests = book.guests.filter(g => g.id !== guestId);
@@ -3200,8 +3556,9 @@
 
         // 删除礼薄
         function deleteGiftBook(bookId) {
-            if (confirm('确定要删除这个礼薄吗？所有宾客记录也将被删除。')) {
+            if (confirm('确定要删除该礼簿吗？礼簿中的宾客列表和关联记录也会删除。')) {
                 giftBooks = giftBooks.filter(b => b.id !== bookId);
+                delete giftBookExpandState[bookId];
                 saveGiftBooks();
             }
         }
@@ -3213,7 +3570,7 @@
             
             const totalAmount = book.guests.reduce((sum, guest) => sum + guest.amount, 0);
             
-            let content = `礼薄：${book.eventName}\n`;
+            let content = `礼簿：${book.eventName}\n`;
             content += `事由：${eventMap[book.eventType]}\n`;
             content += `日期：${formatDateWithLunar(book.date)}\n`;
             if (book.location) content += `地点：${book.location}\n`;
@@ -3236,12 +3593,14 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `礼薄_${book.eventName}_${book.date}.txt`;
+            a.download = `礼簿_${book.eventName}_${book.date}.txt`;
             a.click();
             URL.revokeObjectURL(url);
             
-            alert('✅ 礼薄已导出！');
+            alert('礼簿已导出');
         }
     </script>
 </body>
 </html>
+
+
